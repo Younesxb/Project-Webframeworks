@@ -1,36 +1,45 @@
 import React from "react";
-import { TouchableOpacity, Text, Image, StyleSheet, View } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
-interface CharacterItemProps {
-  character: { id: number; name: string; image: string };
-  onPress: () => void;
-}
-
-const CharacterItem = ({ character, onPress }: CharacterItemProps) => {
+const CharacterItem = ({ character, onPress, toggleFavorite, isFavorite }: any) => {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
       <Image source={{ uri: character.image }} style={styles.image} />
-      <Text style={styles.name}>{character.name}</Text>
+      <View style={styles.info}>
+        <Text style={styles.name}>{character.name}</Text>
+        <TouchableOpacity onPress={() => toggleFavorite(character.id)}>
+          <Text style={styles.favorite}>{isFavorite ? "⭐" : "☆"}</Text>
+        </TouchableOpacity>
+      </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    width: 100, // Breedte van elk item
-    alignItems: "center",
-    marginHorizontal: 5, // Ruimte tussen items
+    flexDirection: "row",
+    marginBottom: 10,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    overflow: "hidden",
   },
   image: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 100,
+    height: 100,
+  },
+  info: {
+    flex: 1,
+    padding: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   name: {
-    fontSize: 12,
-    textAlign: "center",
-    marginTop: 5,
-    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  favorite: {
+    fontSize: 20,
+    color: "#FFD700",
   },
 });
 

@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, ImageBackground, TextInput } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ImageBackground,
+  TextInput,
+  Button,
+} from "react-native";
 import CharacterList from "./components/CharacterList";
 
 const HomeScreen = ({ navigation }: any) => {
   const [characters, setCharacters] = useState([]);
   const [filteredCharacters, setFilteredCharacters] = useState([]);
+  const [favorites, setFavorites] = useState<number[]>([]); // IDs van favoriete karakters
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState(""); // Zoekterm
+  const [showFavorites, setShowFavorites] = useState(false); // Toggle voor favorietenweergave
 
   useEffect(() => {
     const fetchCharacters = async () => {
@@ -25,13 +33,43 @@ const HomeScreen = ({ navigation }: any) => {
     fetchCharacters();
   }, []);
 
-  // Filter de lijst op basis van de zoekterm
+  // Filter de lijst op basis van de zoekterm of favorietenweergave
   const handleSearch = (text: string) => {
-    setSearch(text); // Update de zoekterm
-    const filtered = characters.filter((character: any) =>
-      character.name.toLowerCase().includes(text.toLowerCase())
+    setSearch(text);
+    filterCharacters(text, showFavorites);
+  };
+
+  const toggleFavoritesView = () => {
+    const newShowFavorites = !showFavorites;
+    setShowFavorites(newShowFavorites);
+    filterCharacters(search, newShowFavorites);
+  };
+
+  const filterCharacters = (searchText: string, showOnlyFavorites: boolean) => {
+    let filtered = characters;
+
+    // Filter op favorieten als nodig
+    if (showOnlyFavorites) {
+      filtered = filtered.filter((character: any) =>
+        favorites.includes(character.id)
+      );
+    }
+
+    // Filter op zoekterm
+    if (searchText) {
+      filtered = filtered.filter((character: any) =>
+        character.name.toLowerCase().includes(searchText.toLowerCase())
+      );
+    }
+
+    setFilteredCharacters(filtered);
+  };
+
+  // Voeg of verwijder een karakter uit favorieten
+  const toggleFavorite = (id: number) => {
+    setFavorites((prev) =>
+      prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id]
     );
-    setFilteredCharacters(filtered); // Update de gefilterde lijst
   };
 
   const handleCharacterPress = (id: number) => {
@@ -53,11 +91,18 @@ const HomeScreen = ({ navigation }: any) => {
           value={search}
           onChangeText={handleSearch}
         />
+        {/* Favorieten filterknop */}
+        <Button
+          title={showFavorites ? "Toon Alle" : "Toon Favorieten"}
+          onPress={toggleFavoritesView}
+        />
         {/* Lijst van karakters */}
         <CharacterList
-          characters={filteredCharacters} // Gebruik de gefilterde lijst
+          characters={filteredCharacters}
           isLoading={loading}
           onPress={handleCharacterPress}
+          toggleFavorite={toggleFavorite} // Favorietenfunctie doorgeven
+          favorites={favorites} // Favoriete karakters doorgeven
         />
       </View>
     </ImageBackground>

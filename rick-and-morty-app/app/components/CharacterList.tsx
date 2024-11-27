@@ -1,18 +1,34 @@
 import React from "react";
-import { FlatList, StyleSheet, View, ActivityIndicator } from "react-native";
+import { FlatList, StyleSheet, View, ActivityIndicator, Text } from "react-native";
 import CharacterItem from "./CharacterItem";
 
 interface CharacterListProps {
   characters: Array<{ id: number; name: string; image: string }>;
   isLoading: boolean;
   onPress: (id: number) => void;
+  toggleFavorite: (id: number) => void;
+  favorites: number[]; // IDs van favoriete karakters
 }
 
-const CharacterList = ({ characters, isLoading, onPress }: CharacterListProps) => {
+const CharacterList = ({
+  characters,
+  isLoading,
+  onPress,
+  toggleFavorite,
+  favorites,
+}: CharacterListProps) => {
   if (isLoading) {
     return (
       <View style={styles.loader}>
         <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  if (characters.length === 0) {
+    return (
+      <View style={styles.loader}>
+        <Text style={{ color: "#fff" }}>Geen karakters gevonden</Text>
       </View>
     );
   }
@@ -22,28 +38,19 @@ const CharacterList = ({ characters, isLoading, onPress }: CharacterListProps) =
       data={characters}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <CharacterItem character={item} onPress={() => onPress(item.id)} />
+        <CharacterItem
+          character={item}
+          onPress={() => onPress(item.id)}
+          toggleFavorite={toggleFavorite} // Favorietenfunctie doorgeven
+          isFavorite={favorites.includes(item.id)} // Controleren of karakter favoriet is
+        />
       )}
-      numColumns={3} // Zorgt ervoor dat er drie items per rij staan
-      columnWrapperStyle={styles.row} // Styling voor elke rij
-      contentContainerStyle={styles.grid} // Extra styling voor de grid
     />
   );
 };
 
 const styles = StyleSheet.create({
-  loader: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  grid: {
-    padding: 10, // Extra padding voor de grid
-  },
-  row: {
-    justifyContent: "space-between", // Items worden evenredig verdeeld
-    marginBottom: 10, // Ruimte tussen de rijen
-  },
+  loader: { flex: 1, justifyContent: "center", alignItems: "center" },
 });
 
 export default CharacterList;
