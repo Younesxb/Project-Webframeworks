@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, Image, Button, StyleSheet } from "react-native";
-import { useRouter } from "expo-router"; // Router gebruiken om naar detailspagina te navigeren
 
 const CharacterItem = ({ character, onPress }: { character: any, onPress: () => void }) => {
     return (

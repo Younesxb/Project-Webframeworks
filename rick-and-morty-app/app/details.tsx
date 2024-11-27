@@ -1,11 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet, ActivityIndicator, ImageBackground } from "react-native";
+import { View, Text, Image, StyleSheet, ActivityIndicator, ImageBackground, Button } from "react-native";
 
-export default function DetailsScreen({ route }: any) {
-  const { id } = route.params; // Haal de 'id' op uit de route parameters
+export default function DetailsScreen({ route, navigation }: any) {
+  // Haal de 'id' op uit de route parameters of gebruik een default id (bijv. id = 1)
+  const { id = 1 } = route.params || {}; // Als er geen id is, stel je 1 in als default
+
   const [character, setCharacter] = useState<any>(null); // Gebruik 'any' voor dynamische data
   const [loading, setLoading] = useState(true);
+  const [maxId, setMaxId] = useState<number>(1); // Default maxId is 1, dit gaan we dynamisch instellen
 
+  // Haal de lijst van characters op om de maxId te bepalen
+  useEffect(() => {
+    const fetchMaxId = async () => {
+      try {
+        const response = await fetch("https://sampleapis.assimilate.be/rickandmorty/characters");
+        const data = await response.json();
+        const highestId = Math.max(...data.map((char: { id: number }) => char.id));
+        setMaxId(highestId); // Stel de hoogste id in
+      } catch (error) {
+        console.error("Error fetching maxId:", error);
+      }
+    };
+
+    fetchMaxId();
+  }, []);
+
+  // Haal de character data op op basis van de id
   useEffect(() => {
     if (id) { // Zorg ervoor dat de 'id' beschikbaar is
       const fetchCharacter = async () => {
@@ -27,6 +47,13 @@ export default function DetailsScreen({ route }: any) {
       fetchCharacter();
     }
   }, [id]);
+
+  // Functie om naar de volgende id te navigeren
+  const handleNextCharacter = () => {
+    // Als de huidige id de hoogste is, ga dan terug naar de eerste id
+    const nextId = id === maxId ? 1 : id + 1;
+    navigation.navigate("details", { id: nextId });  // Navigeer naar de volgende id
+  };
 
   if (loading) {
     return (
@@ -56,6 +83,9 @@ export default function DetailsScreen({ route }: any) {
         <Text style={styles.info}>Status: {character.status}</Text>
         <Text style={styles.info}>Gender: {character.gender}</Text>
         <Text style={styles.info}>Origin: {character.origin}</Text>
+
+        {/* Button to go to the next character */}
+        <Button title="Next Character" onPress={handleNextCharacter} />
       </View>
     </ImageBackground>
   );
