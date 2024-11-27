@@ -1,10 +1,11 @@
-// RootLayout.tsx
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import HomeScreen from "./home";
-import DetailsScreen from "./details";
-import FormScreen from "./form";
+import React from 'react';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import HomeScreen from './home';
+import DetailsScreen from './details';
+import FormScreen from './form';
+import { RootStackParamList } from './types/types';  // Zorg ervoor dat je types importeer
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<RootStackParamList>();  // Type je navigator
 
 const RootLayout = () => {
   return (
