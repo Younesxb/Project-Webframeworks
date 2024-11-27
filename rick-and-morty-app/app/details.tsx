@@ -85,7 +85,7 @@ export default function DetailsScreen({ route, navigation }: any) {
         <Text style={styles.info}>Origin: {character.origin}</Text>
 
         {/* Button to go to the next character */}
-        <Button title="Next Character" onPress={handleNextCharacter} />
+        <Button title="Volgende" onPress={handleNextCharacter} />
       </View>
     </ImageBackground>
   );
