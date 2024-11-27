@@ -1,36 +1,36 @@
 import React from "react";
-import { View, Text, Image, Button, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, Image, StyleSheet, View } from "react-native";
 
-const CharacterItem = ({ character, onPress }: { character: any, onPress: () => void }) => {
-    return (
-      <View style={styles.card}>
-        <Image source={{ uri: character.image }} style={styles.image} />
-        <Text style={styles.name}>{character.name}</Text>
-        <Button title="Bekijk gegevens" onPress={onPress} />
-      </View>
-    );
-  };
+interface CharacterItemProps {
+  character: { id: number; name: string; image: string };
+  onPress: () => void;
+}
+
+const CharacterItem = ({ character, onPress }: CharacterItemProps) => {
+  return (
+    <TouchableOpacity style={styles.card} onPress={onPress}>
+      <Image source={{ uri: character.image }} style={styles.image} />
+      <Text style={styles.name}>{character.name}</Text>
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
   card: {
-    marginBottom: 20,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
+    width: 100, // Breedte van elk item
     alignItems: "center",
+    marginHorizontal: 5, // Ruimte tussen items
   },
   image: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 10,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
   name: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color:"white"
+    fontSize: 12,
+    textAlign: "center",
+    marginTop: 5,
+    color: "#fff",
   },
 });
 

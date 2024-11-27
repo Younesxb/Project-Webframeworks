@@ -19,18 +19,31 @@ const CharacterList = ({ characters, isLoading, onPress }: CharacterListProps) =
 
   return (
     <FlatList
-    data={characters}
-    keyExtractor={(item) => item.id.toString()}
-    renderItem={({ item }) => (
-      // Geef het hele character object door in plaats van losse props
-      <CharacterItem character={item} onPress={() => onPress(item.id)} />
-    )}
-  />
+      data={characters}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={({ item }) => (
+        <CharacterItem character={item} onPress={() => onPress(item.id)} />
+      )}
+      numColumns={3} // Zorgt ervoor dat er drie items per rij staan
+      columnWrapperStyle={styles.row} // Styling voor elke rij
+      contentContainerStyle={styles.grid} // Extra styling voor de grid
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  loader: { flex: 1, justifyContent: "center", alignItems: "center" },
+  loader: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  grid: {
+    padding: 10, // Extra padding voor de grid
+  },
+  row: {
+    justifyContent: "space-between", // Items worden evenredig verdeeld
+    marginBottom: 10, // Ruimte tussen de rijen
+  },
 });
 
 export default CharacterList;
