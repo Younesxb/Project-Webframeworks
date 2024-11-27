@@ -41,16 +41,22 @@ const CharacterList = ({
         <CharacterItem
           character={item}
           onPress={() => onPress(item.id)}
-          toggleFavorite={toggleFavorite} // Favorietenfunctie doorgeven
-          isFavorite={favorites.includes(item.id)} // Controleren of karakter favoriet is
+          toggleFavorite={toggleFavorite}
+          isFavorite={favorites.includes(item.id)}
         />
       )}
+      numColumns={3} // Toon items in een grid met 3 kolommen
+      columnWrapperStyle={styles.row} // Stijl voor rijen
     />
   );
 };
 
 const styles = StyleSheet.create({
   loader: { flex: 1, justifyContent: "center", alignItems: "center" },
+  row: {
+    justifyContent: "space-between", // Verdeel items gelijkmatig over de rij
+    marginBottom: 10,
+  },
 });
 
 export default CharacterList;

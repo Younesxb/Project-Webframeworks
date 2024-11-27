@@ -1,42 +1,52 @@
-// components/EpisodeItem.tsx
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
-interface EpisodeItemProps {
-  name: string;
-  air_date: string;
-  episode: string;
-}
-
-const EpisodeItem = ({ name, air_date, episode }: EpisodeItemProps) => {
+const CharacterItem = ({ character, onPress, toggleFavorite, isFavorite }: any) => {
   return (
-    <View style={styles.episodeCard}>
-      <Text style={styles.episodeTitle}>{name}</Text>
-      <Text style={styles.episodeInfo}>Air Date: {air_date}</Text>
-      <Text style={styles.episodeInfo}>Episode: {episode}</Text>
-    </View>
+    <TouchableOpacity style={styles.card} onPress={onPress}>
+      <Image source={{ uri: character.image }} style={styles.image} />
+      <View style={styles.info}>
+        <Text style={styles.name} numberOfLines={1}>
+          {character.name}
+        </Text>
+        <TouchableOpacity onPress={() => toggleFavorite(character.id)}>
+          <Text style={styles.favorite}>{isFavorite ? "⭐" : "☆"}</Text>
+        </TouchableOpacity>
+      </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  episodeCard: {
-    backgroundColor: "#f8f8f8",
-    padding: 16,
-    marginBottom: 10,
-    borderRadius: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+  card: {
+    flex: 1,
+    margin: 5, // Voeg wat ruimte tussen items toe
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    overflow: "hidden",
+    alignItems: "center", // Centreer de inhoud
+    justifyContent: "center",
   },
-  episodeTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 50, // Maak de afbeelding rond
+    marginTop: 10,
   },
-  episodeInfo: {
+  info: {
+    padding: 10,
+    alignItems: "center",
+  },
+  name: {
     fontSize: 14,
-    color: "#555",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  favorite: {
+    fontSize: 20,
+    color: "#FFD700",
+    marginTop: 5,
   },
 });
 
-export default EpisodeItem;
+export default CharacterItem;
