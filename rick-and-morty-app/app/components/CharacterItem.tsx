@@ -7,7 +7,7 @@ const CharacterItem = ({ character, onPress }: { character: any, onPress: () => 
       <View style={styles.card}>
         <Image source={{ uri: character.image }} style={styles.image} />
         <Text style={styles.name}>{character.name}</Text>
-        <Button title="View Details" onPress={onPress} />
+        <Button title="Bekijk gegevens" onPress={onPress} />
       </View>
     );
   };
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
+    color:"white"
   },
 });
 
