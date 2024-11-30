@@ -1,52 +1,37 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
-const CharacterItem = ({ character, onPress, toggleFavorite, isFavorite }: any) => {
+const EpisodeItem = ({ name, air_date, episode }: any) => {
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
-      <Image source={{ uri: character.image }} style={styles.image} />
-      <View style={styles.info}>
-        <Text style={styles.name} numberOfLines={1}>
-          {character.name}
-        </Text>
-        <TouchableOpacity onPress={() => toggleFavorite(character.id)}>
-          <Text style={styles.favorite}>{isFavorite ? "⭐" : "☆"}</Text>
-        </TouchableOpacity>
-      </View>
-    </TouchableOpacity>
+    <View style={styles.episodeCard}>
+      <Text style={styles.episodeName}>{name || "Naam onbekend"}</Text>
+      <Text style={styles.episodeDetails}>{`Aflevering: ${episode || "N/A"}`}</Text>
+      <Text style={styles.episodeDetails}>{`Uitzenddatum: ${air_date || "Onbekend"}`}</Text>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
-    flex: 1,
-    margin: 5, // Voeg wat ruimte tussen items toe
+  episodeCard: {
     backgroundColor: "#fff",
-    borderRadius: 10,
-    overflow: "hidden",
-    alignItems: "center", // Centreer de inhoud
-    justifyContent: "center",
+    marginBottom: 10,
+    padding: 16,
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3, // Schaduw op Android
   },
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 50, // Maak de afbeelding rond
-    marginTop: 10,
-  },
-  info: {
-    padding: 10,
-    alignItems: "center",
-  },
-  name: {
-    fontSize: 14,
+  episodeName: {
+    fontSize: 18,
     fontWeight: "bold",
-    textAlign: "center",
+    marginBottom: 8,
   },
-  favorite: {
-    fontSize: 20,
-    color: "#FFD700",
-    marginTop: 5,
+  episodeDetails: {
+    fontSize: 14,
+    color: "#555",
   },
 });
 
-export default CharacterItem;
+export default EpisodeItem;
