@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, ActivityIndicator, ImageBackground, Button } from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons"; // Voeg react-native-vector-icons toe
 
 export default function DetailsScreen({ route, navigation }: any) {
-  // Haal de 'id' op uit de route parameters of gebruik een default id (bijv. id = 1)
-  const { id = 1 } = route.params || {}; // Als er geen id is, stel je 1 in als default
+  const { id = 1 } = route.params || {};
 
-  const [character, setCharacter] = useState<any>(null); // Gebruik 'any' voor dynamische data
+  const [character, setCharacter] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [maxId, setMaxId] = useState<number>(1); // Default maxId is 1, dit gaan we dynamisch instellen
+  const [maxId, setMaxId] = useState<number>(1);
 
-  // Haal de lijst van characters op om de maxId te bepalen
   useEffect(() => {
     const fetchMaxId = async () => {
       try {
         const response = await fetch("https://sampleapis.assimilate.be/rickandmorty/characters");
         const data = await response.json();
         const highestId = Math.max(...data.map((char: { id: number }) => char.id));
-        setMaxId(highestId); // Stel de hoogste id in
+        setMaxId(highestId);
       } catch (error) {
         console.error("Error fetching maxId:", error);
       }
@@ -25,15 +24,14 @@ export default function DetailsScreen({ route, navigation }: any) {
     fetchMaxId();
   }, []);
 
-  // Haal de character data op op basis van de id
   useEffect(() => {
-    if (id) { // Zorg ervoor dat de 'id' beschikbaar is
+    if (id) {
       const fetchCharacter = async () => {
         try {
           const response = await fetch(`https://sampleapis.assimilate.be/rickandmorty/characters/${id}`);
           if (response.ok) {
             const data = await response.json();
-            setCharacter(data); // Sla de volledige character data op
+            setCharacter(data);
           } else {
             console.error(`Failed to fetch character with id ${id}`);
           }
@@ -48,49 +46,29 @@ export default function DetailsScreen({ route, navigation }: any) {
     }
   }, [id]);
 
-  // Functie om naar de volgende id te navigeren
   const handleNextCharacter = () => {
-    // Als de huidige id de hoogste is, ga dan terug naar de eerste id
     const nextId = id === maxId ? 1 : id + 1;
-    navigation.navigate("details", { id: nextId });  // Navigeer naar de volgende id
+    navigation.navigate("details", { id: nextId });
   };
 
-  // Functie om dynamisch de achtergrondafbeelding te bepalen op basis van de naam van het karakter
   const getBackgroundImage = (name: string) => {
-    // Haal de voornaam uit de volledige naam (bijvoorbeeld "Rick Sanchez" -> "Rick")
     const firstName = name.split(" ")[0].toLowerCase();
-
     switch (firstName) {
-      case "rick":
-        return require("./assets/images/rickBackground.jpg");
-      case "morty":
-        return require("./assets/images/mortyBackground.jpg");
-      case "beth":
-        return require("./assets/images/bethBackground.jpg");
-      case "summer":
-        return require("./assets/images/summerBackground.jpg");
-      case "jerry":
-        return require("./assets/images/jerryBackground.jpg");
-      case "abadango":
-        return require("./assets/images/abadangoBackground.jpg");
-      case "abradolf":
-        return require("./assets/images/abradolfBackground.jpg");
-      case "adjudicator":
-        return require("./assets/images/adjudicatorBackground.jpg");
-      case "agency":
-        return require("./assets/images/agencyBackground.jpg");
-      case "alan":
-        return require("./assets/images/alanBackground.jpg");
-      case "alien":
-        return require("./assets/images/alienBackground.jpg");
-      case "annie":
-        return require("./assets/images/annieBackground.jpg");
-      case "antenna":
-        return require("./assets/images/antennaBackground.jpg");
-      case "ants":
-        return require("./assets/images/antsBackground.jpg");
-      default:
-        return require("./assets/images/default.jpg"); // Default achtergrond
+      case "rick": return require("./assets/images/rickBackground.jpg");
+      case "morty": return require("./assets/images/mortyBackground.jpg");
+      case "beth": return require("./assets/images/bethBackground.jpg");
+      case "summer": return require("./assets/images/summerBackground.jpg");
+      case "jerry": return require("./assets/images/jerryBackground.jpg");
+      case "abadango": return require("./assets/images/abadangoBackground.jpg");
+      case "abradolf": return require("./assets/images/abradolfBackground.jpg");
+      case "adjudicator": return require("./assets/images/adjudicatorBackground.jpg");
+      case "agency": return require("./assets/images/agencyBackground.jpg");
+      case "alan": return require("./assets/images/alanBackground.jpg");
+      case "alien": return require("./assets/images/alienBackground.jpg");
+      case "annie": return require("./assets/images/annieBackground.jpg");
+      case "antenna": return require("./assets/images/antennaBackground.jpg");
+      case "ants": return require("./assets/images/antsBackground.jpg");
+      default: return require("./assets/images/default.jpg");
     }
   };
 
@@ -110,20 +88,38 @@ export default function DetailsScreen({ route, navigation }: any) {
     );
   }
 
+  const genderIcon = character.gender === "Female" ? "female" : "male"; 
+
   return (
     <ImageBackground
-      source={getBackgroundImage(character.name)} // Dynamische achtergrond per karakter
+      source={getBackgroundImage(character.name)}
       style={styles.container}
     >
       <View style={styles.overlay}>
         <Image source={{ uri: character.image }} style={styles.image} />
         <Text style={styles.name}>{character.name}</Text>
-        <Text style={styles.info}>Species: {character.species}</Text>
-        <Text style={styles.info}>Status: {character.status}</Text>
-        <Text style={styles.info}>Gender: {character.gender}</Text>
-        <Text style={styles.info}>Origin: {character.origin}</Text>
-
-        {/* Button to go to the next character */}
+        <View style={styles.infoContainer}>
+          <View style={styles.infoBox}>
+            <Icon name="favorite" size={30} color="green" />
+            <Text style={styles.boxTitle}>Status</Text>
+            <Text style={styles.boxContent}>{character.status}</Text>
+          </View>
+          <View style={styles.infoBox}>
+            <Icon name="person" size={30} color="green" />
+            <Text style={styles.boxTitle}>Species</Text>
+            <Text style={styles.boxContent}>{character.species}</Text>
+          </View>
+          <View style={styles.infoBox}>
+            <Icon name={genderIcon} size={30} color="green" />
+            <Text style={styles.boxTitle}>Gender</Text>
+            <Text style={styles.boxContent}>{character.gender}</Text>
+          </View>
+          <View style={styles.infoBox}>
+            <Icon name="public" size={30} color="green" />
+            <Text style={styles.boxTitle}>Origin</Text>
+            <Text style={styles.boxContent}>{character.origin}</Text>
+          </View>
+        </View>
         <Button title="Volgende" onPress={handleNextCharacter} />
       </View>
     </ImageBackground>
@@ -135,13 +131,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 16
   },
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Zorg ervoor dat tekst leesbaar is tegen de achtergrond
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     padding: 16,
     borderRadius: 10,
     alignItems: 'center',
+    width: "90%",
   },
   loader: {
     flex: 1,
@@ -157,11 +153,38 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 24,
     fontWeight: "bold",
-    color: 'white'
+    color: 'white',
+    marginBottom: 16,
   },
-  info: {
-    fontSize: 18,
-    marginVertical: 4,
-    color: 'white'
+  infoContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    marginVertical: 16,
+  },
+  infoBox: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 12,
+    alignItems: "center",
+    width: "45%",
+    marginVertical: 8,
+    borderWidth: 2,
+    borderColor: "green",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  boxTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 4,
+  },
+  boxContent: {
+    fontSize: 14,
+    color: "#555",
   },
 });
