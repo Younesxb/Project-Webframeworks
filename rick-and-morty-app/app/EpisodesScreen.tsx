@@ -1,12 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { View, FlatList, ActivityIndicator, StyleSheet, Text } from "react-native";
-import EpisodeItem from "./components/EpisodeItem"; // Import het EpisodeItem component
+import React from "react";
+import { FlatList, TouchableOpacity, StyleSheet, View, Text } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "./types/types";
+import EpisodeItem from "./components/EpisodeItem"; // Zorg ervoor dat je dit correct importeert
+
+type NavigationProp = StackNavigationProp<RootStackParamList, "episodes">;
 
 const EpisodesScreen = () => {
-  const [episodes, setEpisodes] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const navigation = useNavigation<NavigationProp>();
 
-  useEffect(() => {
+  const [episodes, setEpisodes] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
     const fetchEpisodes = async () => {
       try {
         const response = await fetch(
@@ -20,58 +27,41 @@ const EpisodesScreen = () => {
         setLoading(false);
       }
     };
-
     fetchEpisodes();
   }, []);
 
   if (loading) {
     return (
       <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
-
-  if (episodes.length === 0) {
-    return (
-      <View style={styles.loader}>
-        <Text style={styles.errorText}>Geen afleveringen gevonden.</Text>
+        <Text>Loading...</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={episodes}
-        keyExtractor={(item) => item.id?.toString() || Math.random().toString()}
-        renderItem={({ item }) => (
+    <FlatList
+      data={episodes}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={({ item }) => (
+        <TouchableOpacity
+          onPress={() => navigation.navigate("EpisodeDetails", { episode: item })}
+        >
           <EpisodeItem
             name={item.name}
             air_date={item.air_date}
             episode={item.episode}
           />
-        )}
-      />
-    </View>
+        </TouchableOpacity>
+      )}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "#f9f9f9",
-  },
   loader: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  errorText: {
-    fontSize: 16,
-    color: "red",
-    textAlign: "center",
   },
 });
 

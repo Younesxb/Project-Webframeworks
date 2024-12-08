@@ -1,7 +1,6 @@
-// types.ts
 export type RootStackParamList = {
-    home: undefined;
-    details: { id: string };  // details verwacht een id parameter
-    episodes: undefined;
-  };
-  
+  home: undefined; // Geen parameters
+  details: { id: string }; // 'details' verwacht een id
+  episodes: undefined; // Geen parameters
+  EpisodeDetails: { episode: any }; // Consistente naam voor details
+};

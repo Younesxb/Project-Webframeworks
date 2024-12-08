@@ -51,6 +51,11 @@ export default function DetailsScreen({ route, navigation }: any) {
     navigation.navigate("details", { id: nextId });
   };
 
+  const handlePreviousCharacter = () => {
+    const previousId = id === 1 ? maxId : id - 1;
+    navigation.navigate("details", { id: previousId });
+  };
+
   const getBackgroundImage = (name: string) => {
     const firstName = name.split(" ")[0].toLowerCase();
     switch (firstName) {
@@ -63,10 +68,13 @@ export default function DetailsScreen({ route, navigation }: any) {
       case "abradolf": return require("./assets/images/abradolfBackground.jpg");
       case "adjudicator": return require("./assets/images/adjudicatorBackground.jpg");
       case "agency": return require("./assets/images/agencyBackground.jpg");
+      case "albert": return require("./assets/images/albertBackground.jpg");
       case "alan": return require("./assets/images/alanBackground.jpg");
+      case "alexander": return require("./assets/images/alexanderBackground.jpg");
       case "alien": return require("./assets/images/alienBackground.jpg");
       case "annie": return require("./assets/images/annieBackground.jpg");
       case "antenna": return require("./assets/images/antennaBackground.jpg");
+      case "amish": return require("./assets/images/amishBackground.jpg");
       case "ants": return require("./assets/images/antsBackground.jpg");
       default: return require("./assets/images/default.jpg");
     }
@@ -100,17 +108,17 @@ export default function DetailsScreen({ route, navigation }: any) {
         <Text style={styles.name}>{character.name}</Text>
         <View style={styles.infoContainer}>
           <View style={styles.infoBox}>
-            <Icon name="favorite" size={30} color="green" />
+            <Icon name="favorite" size={30} color="red" />
             <Text style={styles.boxTitle}>Status</Text>
             <Text style={styles.boxContent}>{character.status}</Text>
           </View>
           <View style={styles.infoBox}>
-            <Icon name="person" size={30} color="green" />
+            <Icon name="person" size={30} color="blue" />
             <Text style={styles.boxTitle}>Species</Text>
             <Text style={styles.boxContent}>{character.species}</Text>
           </View>
           <View style={styles.infoBox}>
-            <Icon name={genderIcon} size={30} color="green" />
+            <Icon name={genderIcon} size={30} color="purple" />
             <Text style={styles.boxTitle}>Gender</Text>
             <Text style={styles.boxContent}>{character.gender}</Text>
           </View>
@@ -120,7 +128,10 @@ export default function DetailsScreen({ route, navigation }: any) {
             <Text style={styles.boxContent}>{character.origin}</Text>
           </View>
         </View>
-        <Button title="Volgende" onPress={handleNextCharacter} />
+        <View style={styles.buttonContainer}>
+          <Button title="Vorige" onPress={handlePreviousCharacter} />
+          <Button title="Volgende" onPress={handleNextCharacter} />
+        </View>
       </View>
     </ImageBackground>
   );
@@ -186,5 +197,11 @@ const styles = StyleSheet.create({
   boxContent: {
     fontSize: 14,
     color: "#555",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 16,
   },
 });
