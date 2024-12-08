@@ -11,12 +11,12 @@ const EpisodesStack = () => {
       <Stack.Screen 
         name="Episodes" 
         component={EpisodesScreen} 
-        options={{ title: "Afleveringen" }} 
+        options={{ title: "Afleveringlijst " }} 
       />
       <Stack.Screen 
         name="EpisodeDetails" 
         component={EpisodeDetailsScreen} 
-        options={{ title: "Aflevering Details" }} 
+        options={{ title: "" }} 
       />
     </Stack.Navigator>
   );

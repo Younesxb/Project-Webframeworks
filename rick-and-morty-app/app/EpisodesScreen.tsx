@@ -50,6 +50,7 @@ const EpisodesScreen = () => {
             name={item.name}
             air_date={item.air_date}
             episode={item.episode}
+            season={item.season}
           />
         </TouchableOpacity>
       )}

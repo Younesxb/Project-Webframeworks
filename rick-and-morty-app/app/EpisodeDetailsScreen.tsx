@@ -17,6 +17,7 @@ const EpisodeDetailsScreen = ({ route }: any) => {
       <Text style={styles.title}>{episode.name || "Naam onbekend"}</Text>
       <Text style={styles.details}>{`Aflevering: ${episode.episode || "N/A"}`}</Text>
       <Text style={styles.details}>{`Uitzenddatum: ${episode.air_date || "Onbekend"}`}</Text>
+      <Text style={styles.details}>{`Seizoen: ${episode.season || "Onbekend"}`}</Text>
     </View>
   );
 };
