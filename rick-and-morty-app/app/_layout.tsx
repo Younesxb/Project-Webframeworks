@@ -23,7 +23,7 @@ const RootLayout = () => {
             backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparante header
           },
           headerTitleStyle: {
-            color: "white", // Witte titel in de header
+            color: "white", 
           },
           drawerStyle: {
             backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparante drawer

@@ -33,7 +33,7 @@ const HomeScreen = ({ navigation }: any) => {
     fetchCharacters();
   }, []);
 
-  // Filter de lijst op basis van de zoekterm of favorietenweergave
+
   const handleSearch = (text: string) => {
     setSearch(text);
     filterCharacters(text, showFavorites);

@@ -1,7 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { Episode } from "../types/types";
 
-const EpisodeItem = ({ name, air_date, episode,season }: any) => {
+const EpisodeItem = ({ name, air_date, episode,season }: Episode) => {
   return (
     <View style={styles.episodeCard}>
       <Text style={styles.episodeName}>{name || "Naam onbekend"}</Text>

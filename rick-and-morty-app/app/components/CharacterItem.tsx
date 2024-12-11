@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
+
+
 const CharacterItem = ({ character, onPress, toggleFavorite, isFavorite }: any) => {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>

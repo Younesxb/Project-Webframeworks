@@ -7,7 +7,7 @@ interface CharacterListProps {
   isLoading: boolean;
   onPress: (id: number) => void;
   toggleFavorite: (id: number) => void;
-  favorites: number[]; // IDs van favoriete karakters
+  favorites: number[]; 
 }
 
 const CharacterList = ({
