@@ -3,7 +3,7 @@ import { FlatList, TouchableOpacity, StyleSheet, View, Text } from "react-native
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "./types/types";
-import EpisodeItem from "./components/EpisodeItem"; // Zorg ervoor dat je dit correct importeert
+import EpisodeItem from "./components/EpisodeItem";
 
 type NavigationProp = StackNavigationProp<RootStackParamList, "episodes">;
 
@@ -15,17 +15,10 @@ const EpisodesScreen = () => {
 
   React.useEffect(() => {
     const fetchEpisodes = async () => {
-      try {
-        const response = await fetch(
-          "https://sampleapis.assimilate.be/rickandmorty/episodes"
-        );
-        const data = await response.json();
-        setEpisodes(data);
-      } catch (error) {
-        console.error("Error fetching episodes: ", error);
-      } finally {
-        setLoading(false);
-      }
+      const response = await fetch("https://sampleapis.assimilate.be/rickandmorty/episodes");
+      const data = await response.json();
+      setEpisodes(data);
+      setLoading(false);
     };
     fetchEpisodes();
   }, []);

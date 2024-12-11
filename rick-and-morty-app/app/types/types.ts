@@ -10,8 +10,9 @@ export interface Episode  {
 
 // RootStackParamList met het Episode type voor de EpisodeDetails route.
 export type RootStackParamList = {
-  home: undefined; // Geen parameters
-  details: { id: string }; // 'details' verwacht een id (voor bijvoorbeeld een karakter)
-  episodes: undefined; // Geen parameters
-  EpisodeDetails: { episode: Episode }; // Gebruik het Episode type in plaats van 'any'
+  home: undefined;
+  details: { id: string };
+  episodes: undefined;
+  EpisodeDetails: { episode: Episode };
+  quiz: undefined;
 };

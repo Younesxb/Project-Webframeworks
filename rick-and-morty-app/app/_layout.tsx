@@ -3,7 +3,8 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { ImageBackground, StyleSheet } from "react-native";
 import HomeScreen from "./home";
 import DetailsScreen from "./details";
-import EpisodesStack from "./components/EpisodesStack"; 
+import EpisodesStack from "./components/EpisodesStack";
+import Quiz from "./components/Quiz";
 
 import { RootStackParamList } from "./types/types";
 
@@ -20,16 +21,16 @@ const RootLayout = () => {
         initialRouteName="home"
         screenOptions={{
           headerStyle: {
-            backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparante header
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
           },
           headerTitleStyle: {
-            color: "white", 
+            color: "white",
           },
           drawerStyle: {
-            backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparante drawer
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
           },
-          drawerActiveTintColor: "white", // Actieve tekstkleur in de drawer
-          drawerInactiveTintColor: "white", // Inactieve tekstkleur in de drawer
+          drawerActiveTintColor: "white",
+          drawerInactiveTintColor: "white",
         }}
       >
         <Drawer.Screen
@@ -44,8 +45,13 @@ const RootLayout = () => {
         />
         <Drawer.Screen
           name="episodes"
-          component={EpisodesStack} // Gebruik de aparte EpisodesStack component hier
+          component={EpisodesStack}
           options={{ title: "Episodes" }}
+        />
+        <Drawer.Screen
+          name="quiz"
+          component={Quiz}
+          options={{ title: "Rick and Morty Quiz" }}
         />
       </Drawer.Navigator>
     </ImageBackground>

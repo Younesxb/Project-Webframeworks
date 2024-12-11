@@ -4,8 +4,6 @@ import { View, Text, StyleSheet } from "react-native";
 const EpisodeDetailsScreen = ({ route }: any) => {
   const { episode } = route.params; // Haal de episode gegevens op
 
-
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{episode.name}</Text>

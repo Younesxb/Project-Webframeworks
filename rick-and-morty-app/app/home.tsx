@@ -11,28 +11,22 @@ import CharacterList from "./components/CharacterList";
 const HomeScreen = ({ navigation }: any) => {
   const [characters, setCharacters] = useState([]);
   const [filteredCharacters, setFilteredCharacters] = useState([]);
-  const [favorites, setFavorites] = useState<number[]>([]); // IDs van favoriete karakters
+  const [favorites, setFavorites] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState(""); // Zoekterm
-  const [showFavorites, setShowFavorites] = useState(false); // Toggle voor favorietenweergave
+  const [search, setSearch] = useState("");
+  const [showFavorites, setShowFavorites] = useState(false);
 
   useEffect(() => {
     const fetchCharacters = async () => {
-      try {
-        const response = await fetch("https://sampleapis.assimilate.be/rickandmorty/characters");
-        const data = await response.json();
-        setCharacters(data);
-        setFilteredCharacters(data); // Toon standaard alle karakters
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
+      const response = await fetch("https://sampleapis.assimilate.be/rickandmorty/characters");
+      const data = await response.json();
+      setCharacters(data);
+      setFilteredCharacters(data);
+      setLoading(false);
     };
 
     fetchCharacters();
   }, []);
-
 
   const handleSearch = (text: string) => {
     setSearch(text);
@@ -48,14 +42,12 @@ const HomeScreen = ({ navigation }: any) => {
   const filterCharacters = (searchText: string, showOnlyFavorites: boolean) => {
     let filtered = characters;
 
-    // Filter op favorieten als nodig
     if (showOnlyFavorites) {
       filtered = filtered.filter((character: any) =>
         favorites.includes(character.id)
       );
     }
 
-    // Filter op zoekterm
     if (searchText) {
       filtered = filtered.filter((character: any) =>
         character.name.toLowerCase().includes(searchText.toLowerCase())
@@ -65,7 +57,6 @@ const HomeScreen = ({ navigation }: any) => {
     setFilteredCharacters(filtered);
   };
 
-  // Voeg of verwijder een karakter uit favorieten
   const toggleFavorite = (id: number) => {
     setFavorites((prev) =>
       prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id]
@@ -83,7 +74,6 @@ const HomeScreen = ({ navigation }: any) => {
       style={styles.background}
     >
       <View style={styles.container}>
-        {/* Zoekbalk */}
         <TextInput
           style={styles.searchBar}
           placeholder="Zoek een karakter..."
@@ -91,18 +81,16 @@ const HomeScreen = ({ navigation }: any) => {
           value={search}
           onChangeText={handleSearch}
         />
-        {/* Favorieten filterknop */}
         <Button
           title={showFavorites ? "Toon Alle" : "Toon Favorieten"}
           onPress={toggleFavoritesView}
         />
-        {/* Lijst van karakters */}
         <CharacterList
           characters={filteredCharacters}
           isLoading={loading}
           onPress={handleCharacterPress}
-          toggleFavorite={toggleFavorite} // Favorietenfunctie doorgeven
-          favorites={favorites} // Favoriete karakters doorgeven
+          toggleFavorite={toggleFavorite}
+          favorites={favorites}
         />
       </View>
     </ImageBackground>

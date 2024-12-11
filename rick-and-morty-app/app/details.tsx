@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, ActivityIndicator, ImageBackground, Button } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons"; // Voeg react-native-vector-icons toe
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 export default function DetailsScreen({ route, navigation }: any) {
   const { id = 1 } = route.params || {};
@@ -11,14 +11,10 @@ export default function DetailsScreen({ route, navigation }: any) {
 
   useEffect(() => {
     const fetchMaxId = async () => {
-      try {
-        const response = await fetch("https://sampleapis.assimilate.be/rickandmorty/characters");
-        const data = await response.json();
-        const highestId = Math.max(...data.map((char: { id: number }) => char.id));
-        setMaxId(highestId);
-      } catch (error) {
-        console.error("Error fetching maxId:", error);
-      }
+      const response = await fetch("https://sampleapis.assimilate.be/rickandmorty/characters");
+      const data = await response.json();
+      const highestId = Math.max(...data.map((char: { id: number }) => char.id));
+      setMaxId(highestId);
     };
 
     fetchMaxId();
@@ -27,19 +23,10 @@ export default function DetailsScreen({ route, navigation }: any) {
   useEffect(() => {
     if (id) {
       const fetchCharacter = async () => {
-        try {
-          const response = await fetch(`https://sampleapis.assimilate.be/rickandmorty/characters/${id}`);
-          if (response.ok) {
-            const data = await response.json();
-            setCharacter(data);
-          } else {
-            console.error(`Failed to fetch character with id ${id}`);
-          }
-        } catch (error) {
-          console.error(error);
-        } finally {
-          setLoading(false);
-        }
+        const response = await fetch(`https://sampleapis.assimilate.be/rickandmorty/characters/${id}`);
+        const data = await response.json();
+        setCharacter(data);
+        setLoading(false);
       };
 
       fetchCharacter();
