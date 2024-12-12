@@ -7,8 +7,9 @@ import {
   Button,
 } from "react-native";
 import CharacterList from "./components/CharacterList";
+import { HomeScreenProps } from "./types/types";
 
-const HomeScreen = ({ navigation }: any) => {
+const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const [characters, setCharacters] = useState([]);
   const [filteredCharacters, setFilteredCharacters] = useState([]);
   const [favorites, setFavorites] = useState<number[]>([]);

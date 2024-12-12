@@ -6,6 +6,7 @@ import DetailsScreen from "./details";
 import EpisodesStack from "./components/EpisodesStack";
 import Quiz from "./components/Quiz";
 import { RootStackParamList } from "./types/types";
+import AddCharacterScreen from "./AddCharacterScreen";
 
 const Drawer = createDrawerNavigator<RootStackParamList>();
 
@@ -52,6 +53,12 @@ const RootLayout = () => {
           component={Quiz}
           options={{ title: "Rick and Morty Quiz" }}
         />
+        <Drawer.Screen
+  name="addCharacter"
+  component={AddCharacterScreen}
+  options={{ title: "Voeg Karakter Toe" }}
+/>
+
       </Drawer.Navigator>
     </ImageBackground>
   );

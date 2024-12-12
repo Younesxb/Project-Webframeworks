@@ -21,6 +21,12 @@ export interface CharacterItemProps {
   isFavorite: boolean;
 }
 
+export interface HomeScreenProps {
+  navigation: {
+    navigate: (screen: string, params?: { id: number }) => void;
+  };
+}
+
 // RootStackParamList met het Episode type voor de EpisodeDetails route.
 export type RootStackParamList = {
   home: undefined;
@@ -28,4 +34,5 @@ export type RootStackParamList = {
   episodes: undefined;
   EpisodeDetails: { episode: EpisodeItemProps };
   quiz: undefined;
+  addCharacter: undefined;
 };
