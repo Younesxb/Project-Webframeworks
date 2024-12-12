@@ -1,14 +1,13 @@
 import React from "react";
-import { FlatList, StyleSheet, View, ActivityIndicator, Text } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  Text,
+} from "react-native";
 import CharacterItem from "./CharacterItem";
-
-interface CharacterListProps {
-  characters: Array<{ id: number; name: string; image: string }>;
-  isLoading: boolean;
-  onPress: (id: number) => void;
-  toggleFavorite: (id: number) => void;
-  favorites: number[]; 
-}
+import { CharacterListProps } from "../types/types";
 
 const CharacterList = ({
   characters,

@@ -18,7 +18,9 @@ const HomeScreen = ({ navigation }: any) => {
 
   useEffect(() => {
     const fetchCharacters = async () => {
-      const response = await fetch("https://sampleapis.assimilate.be/rickandmorty/characters");
+      const response = await fetch(
+        "https://sampleapis.assimilate.be/rickandmorty/characters"
+      );
       const data = await response.json();
       setCharacters(data);
       setFilteredCharacters(data);

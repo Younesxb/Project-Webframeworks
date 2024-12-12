@@ -5,7 +5,6 @@ import HomeScreen from "./home";
 import DetailsScreen from "./details";
 import EpisodesStack from "./components/EpisodesStack";
 import Quiz from "./components/Quiz";
-
 import { RootStackParamList } from "./types/types";
 
 const Drawer = createDrawerNavigator<RootStackParamList>();

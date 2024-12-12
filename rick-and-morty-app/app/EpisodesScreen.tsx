@@ -1,5 +1,11 @@
 import React from "react";
-import { FlatList, TouchableOpacity, StyleSheet, View, Text } from "react-native";
+import {
+  FlatList,
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  Text,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "./types/types";
@@ -15,7 +21,9 @@ const EpisodesScreen = () => {
 
   React.useEffect(() => {
     const fetchEpisodes = async () => {
-      const response = await fetch("https://sampleapis.assimilate.be/rickandmorty/episodes");
+      const response = await fetch(
+        "https://sampleapis.assimilate.be/rickandmorty/episodes"
+      );
       const data = await response.json();
       setEpisodes(data);
       setLoading(false);
@@ -37,7 +45,9 @@ const EpisodesScreen = () => {
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
         <TouchableOpacity
-          onPress={() => navigation.navigate("EpisodeDetails", { episode: item })}
+          onPress={() =>
+            navigation.navigate("EpisodeDetails", { episode: item })
+          }
         >
           <EpisodeItem
             name={item.name}

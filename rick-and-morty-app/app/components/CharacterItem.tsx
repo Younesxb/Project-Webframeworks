@@ -1,9 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { CharacterItemProps } from "../types/types";
 
-
-
-const CharacterItem = ({ character, onPress, toggleFavorite, isFavorite }: any) => {
+const CharacterItem = ({
+  character,
+  onPress,
+  toggleFavorite,
+  isFavorite,
+}: CharacterItemProps) => {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
       <Image source={{ uri: character.image }} style={styles.image} />

@@ -8,15 +8,15 @@ const Stack = createStackNavigator();
 const EpisodesStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen 
-        name="Episodes" 
-        component={EpisodesScreen} 
-        options={{ title: "Afleveringlijst " }} 
+      <Stack.Screen
+        name="Episodes"
+        component={EpisodesScreen}
+        options={{ title: "Afleveringlijst " }}
       />
-      <Stack.Screen 
-        name="EpisodeDetails" 
-        component={EpisodeDetailsScreen} 
-        options={{ title: "" }} 
+      <Stack.Screen
+        name="EpisodeDetails"
+        component={EpisodeDetailsScreen}
+        options={{ title: "" }}
       />
     </Stack.Navigator>
   );

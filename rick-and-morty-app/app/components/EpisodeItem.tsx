@@ -1,15 +1,14 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Episode } from "../types/types";
+import { EpisodeItemProps } from "../types/types";
 
-const EpisodeItem = ({ name, air_date, episode,season }: Episode) => {
+const EpisodeItem = ({ name, air_date, episode, season }: EpisodeItemProps) => {
   return (
     <View style={styles.episodeCard}>
-      <Text style={styles.episodeName}>{name || "Naam onbekend"}</Text>
-      <Text style={styles.episodeDetails}>{`Aflevering: ${episode || "N/A"}`}</Text>
-      <Text style={styles.episodeDetails}>{`Uitzenddatum: ${air_date || "Onbekend"}`}</Text>
-      <Text style={styles.episodeDetails}>{`Seizoen: ${season || "Onbekend"}`}</Text>
-      
+      <Text style={styles.episodeName}>{name}</Text>
+      <Text style={styles.episodeDetails}>{`Aflevering: ${episode}`}</Text>
+      <Text style={styles.episodeDetails}>{`Uitzenddatum: ${air_date}`}</Text>
+      <Text style={styles.episodeDetails}>{`Seizoen: ${season}`}</Text>
     </View>
   );
 };

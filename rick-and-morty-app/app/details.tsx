@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet, ActivityIndicator, ImageBackground, Button } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ActivityIndicator,
+  ImageBackground,
+  Button,
+} from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 export default function DetailsScreen({ route, navigation }: any) {
@@ -11,9 +19,13 @@ export default function DetailsScreen({ route, navigation }: any) {
 
   useEffect(() => {
     const fetchMaxId = async () => {
-      const response = await fetch("https://sampleapis.assimilate.be/rickandmorty/characters");
+      const response = await fetch(
+        "https://sampleapis.assimilate.be/rickandmorty/characters"
+      );
       const data = await response.json();
-      const highestId = Math.max(...data.map((char: { id: number }) => char.id));
+      const highestId = Math.max(
+        ...data.map((char: { id: number }) => char.id)
+      );
       setMaxId(highestId);
     };
 
@@ -23,7 +35,9 @@ export default function DetailsScreen({ route, navigation }: any) {
   useEffect(() => {
     if (id) {
       const fetchCharacter = async () => {
-        const response = await fetch(`https://sampleapis.assimilate.be/rickandmorty/characters/${id}`);
+        const response = await fetch(
+          `https://sampleapis.assimilate.be/rickandmorty/characters/${id}`
+        );
         const data = await response.json();
         setCharacter(data);
         setLoading(false);
@@ -46,24 +60,42 @@ export default function DetailsScreen({ route, navigation }: any) {
   const getBackgroundImage = (name: string) => {
     const firstName = name.split(" ")[0].toLowerCase();
     switch (firstName) {
-      case "rick": return require("./assets/images/rickBackground.jpg");
-      case "morty": return require("./assets/images/mortyBackground.jpg");
-      case "beth": return require("./assets/images/bethBackground.jpg");
-      case "summer": return require("./assets/images/summerBackground.jpg");
-      case "jerry": return require("./assets/images/jerryBackground.jpg");
-      case "abadango": return require("./assets/images/abadangoBackground.jpg");
-      case "abradolf": return require("./assets/images/abradolfBackground.jpg");
-      case "adjudicator": return require("./assets/images/adjudicatorBackground.jpg");
-      case "agency": return require("./assets/images/agencyBackground.jpg");
-      case "albert": return require("./assets/images/albertBackground.jpg");
-      case "alan": return require("./assets/images/alanBackground.jpg");
-      case "alexander": return require("./assets/images/alexanderBackground.jpg");
-      case "alien": return require("./assets/images/alienBackground.jpg");
-      case "annie": return require("./assets/images/annieBackground.jpg");
-      case "antenna": return require("./assets/images/antennaBackground.jpg");
-      case "amish": return require("./assets/images/amishBackground.jpg");
-      case "ants": return require("./assets/images/antsBackground.jpg");
-      default: return require("./assets/images/default.jpg");
+      case "rick":
+        return require("./assets/images/rickBackground.jpg");
+      case "morty":
+        return require("./assets/images/mortyBackground.jpg");
+      case "beth":
+        return require("./assets/images/bethBackground.jpg");
+      case "summer":
+        return require("./assets/images/summerBackground.jpg");
+      case "jerry":
+        return require("./assets/images/jerryBackground.jpg");
+      case "abadango":
+        return require("./assets/images/abadangoBackground.jpg");
+      case "abradolf":
+        return require("./assets/images/abradolfBackground.jpg");
+      case "adjudicator":
+        return require("./assets/images/adjudicatorBackground.jpg");
+      case "agency":
+        return require("./assets/images/agencyBackground.jpg");
+      case "albert":
+        return require("./assets/images/albertBackground.jpg");
+      case "alan":
+        return require("./assets/images/alanBackground.jpg");
+      case "alexander":
+        return require("./assets/images/alexanderBackground.jpg");
+      case "alien":
+        return require("./assets/images/alienBackground.jpg");
+      case "annie":
+        return require("./assets/images/annieBackground.jpg");
+      case "antenna":
+        return require("./assets/images/antennaBackground.jpg");
+      case "amish":
+        return require("./assets/images/amishBackground.jpg");
+      case "ants":
+        return require("./assets/images/antsBackground.jpg");
+      default:
+        return require("./assets/images/default.jpg");
     }
   };
 
@@ -83,7 +115,7 @@ export default function DetailsScreen({ route, navigation }: any) {
     );
   }
 
-  const genderIcon = character.gender === "Female" ? "female" : "male"; 
+  const genderIcon = character.gender === "Female" ? "female" : "male";
 
   return (
     <ImageBackground
@@ -131,27 +163,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     padding: 16,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
     width: "90%",
   },
   loader: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   image: {
     width: 200,
     height: 200,
     borderRadius: 100,
-    marginBottom: 16
+    marginBottom: 16,
   },
   name: {
     fontSize: 24,
     fontWeight: "bold",
-    color: 'white',
+    color: "white",
     marginBottom: 16,
   },
   infoContainer: {
@@ -161,7 +193,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   infoBox: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 12,
     alignItems: "center",

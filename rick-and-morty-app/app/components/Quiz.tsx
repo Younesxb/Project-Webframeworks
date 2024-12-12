@@ -43,7 +43,12 @@ const QuizScreen = () => {
     },
     {
       question: "Wat is de naam van de galactische autoriteit in de show?",
-      options: ["Citadel of Ricks", "The Galactic Federation", "The Federation", "The Galactic Council"],
+      options: [
+        "Citadel of Ricks",
+        "The Galactic Federation",
+        "The Federation",
+        "The Galactic Council",
+      ],
       answer: "Citadel of Ricks",
     },
     {
@@ -58,7 +63,12 @@ const QuizScreen = () => {
     },
     {
       question: "Wat voor soort wezen is Mr. Poopybutthole?",
-      options: ["Een menselijke Poopybutthole", "Een onsterfelijk wezen", "Een robot", "Een alien"],
+      options: [
+        "Een menselijke Poopybutthole",
+        "Een onsterfelijk wezen",
+        "Een robot",
+        "Een alien",
+      ],
       answer: "Een menselijke Poopybutthole",
     },
     {
@@ -67,7 +77,8 @@ const QuizScreen = () => {
       answer: "Reizen door universa",
     },
     {
-      question: "Wat is de naam van de ruimte- en tijdreizen voertuig van Rick?",
+      question:
+        "Wat is de naam van de ruimte- en tijdreizen voertuig van Rick?",
       options: ["Spaceship", "Rickmobile", "Hoverboard", "Space Cruiser"],
       answer: "Spaceship",
     },
@@ -103,7 +114,12 @@ const QuizScreen = () => {
     },
     {
       question: "Wat is het doel van Evil Morty?",
-      options: ["De Citadel van Ricks te vernietigen", "Een andere Rick te vinden", "Hersenspoelen van de universa", "Universele overheersing"],
+      options: [
+        "De Citadel van Ricks te vernietigen",
+        "Een andere Rick te vinden",
+        "Hersenspoelen van de universa",
+        "Universele overheersing",
+      ],
       answer: "De Citadel van Ricks te vernietigen",
     },
     {
@@ -117,8 +133,14 @@ const QuizScreen = () => {
       answer: "Squanchy",
     },
     {
-      question: "Wat is de naam van het ruimteschip van de Galactic Federation?",
-      options: ["The Death Star", "The Federator", "The Overlord", "The Galactic Ship"],
+      question:
+        "Wat is de naam van het ruimteschip van de Galactic Federation?",
+      options: [
+        "The Death Star",
+        "The Federator",
+        "The Overlord",
+        "The Galactic Ship",
+      ],
       answer: "The Federator",
     },
     {
@@ -128,10 +150,14 @@ const QuizScreen = () => {
     },
     {
       question: "Wat doet Rick als hij onder druk staat?",
-      options: ["Het opgeven", "Zichzelf verbeteren", "Rennen naar zijn lab", "Wodka drinken"],
+      options: [
+        "Het opgeven",
+        "Zichzelf verbeteren",
+        "Rennen naar zijn lab",
+        "Wodka drinken",
+      ],
       answer: "Wodka drinken",
     },
-  
   ];
 
   const handleAnswer = (answer: string) => {
@@ -156,7 +182,8 @@ const QuizScreen = () => {
       <View style={styles.container}>
         <View style={styles.quizBox}>
           <Text style={styles.question}>
-            Vraag {currentQuestionIndex + 1}: {questions[currentQuestionIndex].question}
+            Vraag {currentQuestionIndex + 1}:{" "}
+            {questions[currentQuestionIndex].question}
           </Text>
           {questions[currentQuestionIndex].options.map((option, index) => (
             <Button
@@ -191,7 +218,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5, // Voor Android-schaduw
     alignItems: "center",
     width: "90%", // Responsieve breedte
   },
