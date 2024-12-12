@@ -54,11 +54,10 @@ const RootLayout = () => {
           options={{ title: "Rick and Morty Quiz" }}
         />
         <Drawer.Screen
-  name="addCharacter"
-  component={AddCharacterScreen}
-  options={{ title: "Voeg Karakter Toe" }}
-/>
-
+          name="addCharacter"
+          component={AddCharacterScreen}
+          options={{ title: "Voeg Karakter Toe" }}
+        />
       </Drawer.Navigator>
     </ImageBackground>
   );

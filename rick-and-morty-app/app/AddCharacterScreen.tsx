@@ -12,7 +12,6 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native"; // Importeren van useNavigation
-import { HomeScreenProps } from "./types/types"; // Importeer de juiste interface voor navigatie
 
 const AddCharacterScreen = () => {
   const navigation = useNavigation(); // Gebruik useNavigation voor toegang tot navigatie
