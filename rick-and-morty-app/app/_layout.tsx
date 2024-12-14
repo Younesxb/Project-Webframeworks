@@ -4,7 +4,7 @@ import { ImageBackground, StyleSheet } from "react-native";
 import HomeScreen from "./home";
 import DetailsScreen from "./details";
 import EpisodesStack from "./components/EpisodesStack";
-import Quiz from "./components/Quiz";
+import Quiz from "./Quiz";
 import { RootStackParamList } from "./types/types";
 import AddCharacterScreen from "./AddCharacterScreen";
 

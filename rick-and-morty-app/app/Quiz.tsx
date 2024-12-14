@@ -175,7 +175,7 @@ const QuizScreen = () => {
 
   return (
     <ImageBackground
-      source={require("../assets/images/RickAndMortyBackground.jpg")}
+      source={require("./assets/images/rickandmortylaadexpo.jpg")}
       style={styles.background}
       resizeMode="cover"
     >
