@@ -15,7 +15,6 @@ type NavigationProp = StackNavigationProp<RootStackParamList, "episodes">;
 
 const EpisodesScreen = () => {
   const navigation = useNavigation<NavigationProp>();
-
   const [episodes, setEpisodes] = React.useState<any[]>([]);
   const [loading, setLoading] = React.useState(true);
 

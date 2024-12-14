@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: {
-    width: "100%", // Gebruik de volledige breedte van de kaart
+    width: "100%", 
     height: 100,
   },
   info: {
@@ -50,11 +50,11 @@ const styles = StyleSheet.create({
   },
   favorite: {
     fontSize: 20,
-    color: "#D3D3D3", // Inactief sterretje
+    color: "#D3D3D3", 
     marginTop: 5,
   },
   activeFavorite: {
-    color: "#FFD700", // Gouden ster voor favorieten
+    color: "#FFD700", 
   },
 });
 

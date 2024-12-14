@@ -57,42 +57,49 @@ export default function DetailsScreen({ route, navigation }: any) {
     navigation.navigate("details", { id: previousId });
   };
 
-  const getBackgroundImage = (name: string) => {
-    const firstName = name.split(" ")[0].toLowerCase();
-    switch (firstName) {
-      case "rick":
+  const getBackgroundImage = (id: number) => {
+    switch (id) {
+      case 1:
         return require("./assets/images/rickBackground.jpg");
-      case "morty":
+      case 2:
         return require("./assets/images/mortyBackground.jpg");
-      case "beth":
-        return require("./assets/images/bethBackground.jpg");
-      case "summer":
+      case 3:
         return require("./assets/images/summerBackground.jpg");
-      case "jerry":
+
+      case 4:
+        return require("./assets/images/bethBackground.jpg");
+      case 5:
         return require("./assets/images/jerryBackground.jpg");
-      case "abadango":
+      case 6:
         return require("./assets/images/abadangoBackground.jpg");
-      case "abradolf":
+      case 7:
         return require("./assets/images/abradolfBackground.jpg");
-      case "adjudicator":
+      case 8:
         return require("./assets/images/adjudicatorBackground.jpg");
-      case "agency":
+      case 9:
         return require("./assets/images/agencyBackground.jpg");
-      case "albert":
-        return require("./assets/images/albertBackground.jpg");
-      case "alan":
+      case 10:
         return require("./assets/images/alanBackground.jpg");
-      case "alexander":
+
+      case 11:
+        return require("./assets/images/albertBackground.jpg");
+      case 12:
         return require("./assets/images/alexanderBackground.jpg");
-      case "alien":
-        return require("./assets/images/alienBackground.jpg");
-      case "annie":
-        return require("./assets/images/annieBackground.jpg");
-      case "antenna":
-        return require("./assets/images/antennaBackground.jpg");
-      case "amish":
+      case 13:
+        return require("./assets/images/alienGoogahBackground.jpg");
+      case 14:
+        return require("./assets/images/alienMortyBackground.jpg");
+      case 15:
+        return require("./assets/images/alienRickBackground.jpg");
+      case 16:
         return require("./assets/images/amishBackground.jpg");
-      case "ants":
+      case 17:
+        return require("./assets/images/annieBackground.jpg");
+      case 18:
+        return require("./assets/images/antennaBackground.jpg");
+      case 19:
+        return require("./assets/images/antennaRickBackground.jpg");
+      case 20:
         return require("./assets/images/antsBackground.jpg");
       default:
         return require("./assets/images/default.jpg");
@@ -119,7 +126,7 @@ export default function DetailsScreen({ route, navigation }: any) {
 
   return (
     <ImageBackground
-      source={getBackgroundImage(character.name)}
+      source={getBackgroundImage(character.id)}
       style={styles.container}
     >
       <View style={styles.overlay}>

@@ -8,6 +8,7 @@ import Quiz from "./components/Quiz";
 import { RootStackParamList } from "./types/types";
 import AddCharacterScreen from "./AddCharacterScreen";
 
+
 const Drawer = createDrawerNavigator<RootStackParamList>();
 
 const RootLayout = () => {

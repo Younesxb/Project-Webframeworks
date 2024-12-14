@@ -10,18 +10,38 @@ import {
   Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import * as Notifications from "expo-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native"; // Importeren van useNavigation
+import { useNavigation } from "@react-navigation/native";
 
 const AddCharacterScreen = () => {
-  const navigation = useNavigation(); // Gebruik useNavigation voor toegang tot navigatie
+  const navigation = useNavigation();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // Functie om een afbeelding te kiezen
+  // Stel notificaties in
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
+
+  // Functie om een notificatie te tonen
+  const showNotification = async () => {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Succes!",
+        body: `${name} is succesvol toegevoegd.`,
+      },
+      trigger: null, // Onmiddellijke melding
+    });
+  };
+
   const pickImage = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permission.granted === false) {
@@ -40,7 +60,6 @@ const AddCharacterScreen = () => {
     }
   };
 
-  // Functie om karaktergegevens op te slaan
   const saveCharacter = async () => {
     if (!name || !description || !image) {
       Alert.alert("Invoer vereist", "Vul alle velden in en kies een afbeelding.");
@@ -50,7 +69,6 @@ const AddCharacterScreen = () => {
     setLoading(true);
 
     try {
-      // Voeg gegevens toe via POST-request
       const response = await fetch(
         "https://sampleapis.assimilate.be/rickandmorty/characters",
         {
@@ -75,6 +93,9 @@ const AddCharacterScreen = () => {
           JSON.stringify(savedCharacter)
         );
 
+        // Toon notificatie
+        await showNotification();
+
         Alert.alert("Succes", "Karakter succesvol toegevoegd!");
         navigation.goBack(); // Navigeren terug naar het vorige scherm
       } else {
@@ -93,11 +114,10 @@ const AddCharacterScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Voeg een nieuw karakter toe</Text>
-
       <TextInput
         style={styles.input}
         placeholder="Naam"
+        placeholderTextColor="#888"
         value={name}
         onChangeText={setName}
       />
@@ -105,6 +125,7 @@ const AddCharacterScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Beschrijving"
+        placeholderTextColor="#888"
         value={description}
         onChangeText={setDescription}
         multiline
@@ -127,12 +148,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 16,
     backgroundColor: "#f9f9f9",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
-    textAlign: "center",
   },
   input: {
     borderWidth: 1,

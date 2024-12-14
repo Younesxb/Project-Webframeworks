@@ -44,8 +44,8 @@ const CharacterList = ({
           isFavorite={favorites.includes(item.id)}
         />
       )}
-      numColumns={3} // Toon items in een grid met 3 kolommen
-      columnWrapperStyle={styles.row} // Stijl voor rijen
+      numColumns={3} 
+      columnWrapperStyle={styles.row} 
     />
   );
 };
@@ -53,7 +53,7 @@ const CharacterList = ({
 const styles = StyleSheet.create({
   loader: { flex: 1, justifyContent: "center", alignItems: "center" },
   row: {
-    justifyContent: "space-between", // Verdeel items gelijkmatig over de rij
+    justifyContent: "space-between", 
     marginBottom: 10,
   },
 });

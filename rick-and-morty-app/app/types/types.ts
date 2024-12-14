@@ -1,10 +1,18 @@
-// Definieer een type voor een Episode, pas dit aan afhankelijk van de werkelijke gegevens die je ontvangt.
 export interface EpisodeItemProps {
   name: string;
   episode: string;
   air_date: string;
   season: string;
 }
+
+
+export interface Character {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+}
+
 
 export interface CharacterListProps {
   characters: Array<{ id: number; name: string; image: string }>;
@@ -27,7 +35,6 @@ export interface HomeScreenProps {
   };
 }
 
-// RootStackParamList met het Episode type voor de EpisodeDetails route.
 export type RootStackParamList = {
   home: undefined;
   details: { id: string };
@@ -35,4 +42,5 @@ export type RootStackParamList = {
   EpisodeDetails: { episode: EpisodeItemProps };
   quiz: undefined;
   addCharacter: undefined;
+  savedCharacters: undefined;
 };
