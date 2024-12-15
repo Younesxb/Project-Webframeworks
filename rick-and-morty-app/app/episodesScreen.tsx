@@ -9,7 +9,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "./types/types";
-import EpisodeItem from "./components/EpisodeItem";
+import EpisodeItem from "./components/episodeItem";
 
 type NavigationProp = StackNavigationProp<RootStackParamList, "episodes">;
 

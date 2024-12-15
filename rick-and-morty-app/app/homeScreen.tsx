@@ -6,7 +6,7 @@ import {
   TextInput,
   Button,
 } from "react-native";
-import CharacterList from "./components/CharacterList";
+import CharacterList from "./components/characterList";
 import { HomeScreenProps } from "./types/types";
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {

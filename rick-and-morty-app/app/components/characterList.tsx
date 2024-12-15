@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   Text,
 } from "react-native";
-import CharacterItem from "./CharacterItem";
+import CharacterItem from "./characterItem";
 import { CharacterListProps } from "../types/types";
 
 const CharacterList = ({

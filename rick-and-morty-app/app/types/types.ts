@@ -41,6 +41,5 @@ export type RootStackParamList = {
   episodes: undefined;
   EpisodeDetails: { episode: EpisodeItemProps };
   quiz: undefined;
-  addCharacter: undefined;
-  savedCharacters: undefined;
+
 };
