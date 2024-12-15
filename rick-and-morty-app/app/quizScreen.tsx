@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import { View, Text, Button, StyleSheet, ImageBackground } from "react-native";
+import React, { useState, useEffect } from "react"; 
+import { FlatList, StyleSheet, View, Text, Button, ImageBackground, Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
+import { EpisodeItemProps } from "./types/types"; // Importeer de interface
 
 const QuizScreen = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0); // Variabele voor de topscore
 
   const questions = [
     {
@@ -160,6 +163,18 @@ const QuizScreen = () => {
     },
   ];
 
+  useEffect(() => {
+    const loadHighScore = async () => {
+      const storedHighScore = await AsyncStorage.getItem("highScore");
+      if (storedHighScore) {
+        setHighScore(parseInt(storedHighScore)); // Zet de geladen score als de top score
+      }
+    };
+
+    loadHighScore();
+  }, []);
+
+  // Handle answer selection
   const handleAnswer = (answer: string) => {
     if (answer === questions[currentQuestionIndex].answer) {
       setScore(score + 1);
@@ -167,7 +182,17 @@ const QuizScreen = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
+      // Quiz eindigen
       alert(`Quiz beëindigd! Je score is: ${score}/${questions.length}`);
+
+      // Controleer of de score hoger is dan de topscore
+      if (score > highScore) {
+        setHighScore(score);
+        AsyncStorage.setItem("highScore", score.toString()); // Sla de nieuwe topscore op
+        alert("Gefeliciteerd! Je hebt een nieuwe topscore!");
+      }
+
+      // Reset de score en vraagindex voor de volgende quiz
       setScore(0);
       setCurrentQuestionIndex(0);
     }
@@ -192,6 +217,12 @@ const QuizScreen = () => {
               onPress={() => handleAnswer(option)}
             />
           ))}
+          <Text style={styles.score}>Huidige Score: {score}</Text>
+        </View>
+
+        {/* Toon de topscore onderaan */}
+        <View style={styles.highScoreBox}>
+          <Text style={styles.highScoreText}>Topscore: {highScore}</Text>
         </View>
       </View>
     </ImageBackground>
@@ -220,12 +251,32 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     alignItems: "center",
     width: "90%", // Responsieve breedte
+    height: 300, // Stel een vaste hoogte in voor stabiliteit
+    justifyContent: "space-evenly", // Verdeel de ruimte gelijkmatig
   },
   question: {
     fontSize: 18,
     color: "black",
     marginBottom: 20,
     textAlign: "center",
+  },
+  score: {
+    fontSize: 16,
+    color: "green",
+    marginTop: 20,
+  },
+  highScoreBox: {
+    marginTop: 20, // Zorg ervoor dat er wat ruimte is tussen de quiz en de topscore
+    padding: 10,
+    backgroundColor: "#f8f8f8",
+    borderRadius: 5,
+    width: "90%",
+    alignItems: "center",
+  },
+  highScoreText: {
+    fontSize: 18,
+    color: "blue",
+    fontWeight: "bold",
   },
 });
 

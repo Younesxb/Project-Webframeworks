@@ -85,7 +85,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     const character = characters.find((char) => char.id === id);
     if (!character) return;
 
-    //hier word dit geupdated en doorgegeven naar asyncstorage
+
     const updatedFavorites = favorites.includes(id)
       ? favorites.filter((favId) => favId !== id)
       : [...favorites, id];
