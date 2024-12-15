@@ -50,14 +50,14 @@ const EpisodesScreen = () => {
     };
 
     const response = await fetch(
-      "https://sampleapis.assimilate.be/rickandmorty/episodes",  // API endpoint
+      "https://sampleapis.assimilate.be/rickandmorty/episodes",  
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlvdW5lcy5iZW56aWFuQHN0dWRlbnQuYXAuYmUiLCJpYXQiOjE3MzQyOTcyMzV9.aHUsIafizhymmhv15Nploe-bAHSESYmBkqznwxxAQBQ`,  // Je token hier invoegen
         },
-        body: JSON.stringify(newEpisode),  // Gegevens die je wilt versturen
+        body: JSON.stringify(newEpisode),  
       }
     );
 
