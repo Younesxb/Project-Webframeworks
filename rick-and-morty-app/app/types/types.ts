@@ -38,8 +38,5 @@ export type RootStackParamList = {
   home: undefined;
   details: { id: string };
   episodes: undefined;
-  EpisodeDetails: { episode: EpisodeItemProps };
   quiz: undefined;
-  addCharacter: undefined;
-
 };

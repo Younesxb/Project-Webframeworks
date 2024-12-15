@@ -1,27 +1,83 @@
-import React, { useState, useEffect } from "react";
-import { FlatList, StyleSheet, View, Text } from "react-native";
-import EpisodeItem from "./components/episodeItem"; 
+import React, { useState, useEffect } from "react"; 
+import { FlatList, StyleSheet, View, Text, TextInput, Button, TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
+import { EpisodeItemProps } from "./types/types"; // Importeer de interface
 
 const EpisodesScreen = () => {
-  const [episodes, setEpisodes] = useState<any[]>([]); 
+  const [episodes, setEpisodes] = useState<EpisodeItemProps[]>([]); // Gebruik de EpisodeItemProps interface
   const [loading, setLoading] = useState(true);
 
+  // States voor formulierinput
+  const [name, setName] = useState<string>("");
+  const [airDate, setAirDate] = useState<string>("");
+  const [episode, setEpisode] = useState<string>("");
+  const [season, setSeason] = useState<string>("");
+
+  // Laad de afleveringen uit AsyncStorage en de API
   useEffect(() => {
-    const fetchEpisodes = async () => {
+    const loadEpisodes = async () => {
       try {
+        // Haal de originele afleveringen van de API op
         const response = await fetch("https://sampleapis.assimilate.be/rickandmorty/episodes");
         const data = await response.json();
-        setEpisodes(data);
+
+        // Laad de opgeslagen afleveringen uit AsyncStorage
+        const storedEpisodes = await AsyncStorage.getItem("episodes");
+        const storedData = storedEpisodes ? JSON.parse(storedEpisodes) : [];
+
+        // Combineer de originele afleveringen en de opgeslagen afleveringen
+        setEpisodes([...data, ...storedData]); // Voeg de originele en opgeslagen afleveringen samen
       } catch (error) {
-        console.error("Error fetching episodes:", error);
+        console.error("Error loading episodes:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchEpisodes();
+    loadEpisodes();
   }, []);
 
+  // Voeg een nieuwe aflevering toe via de POST request (geïmplementeerd als opslag in AsyncStorage)
+  const addEpisode = async () => {
+    const newEpisode: EpisodeItemProps = {
+      name,
+      air_date: airDate,
+      episode,
+      season,
+    };
+
+    const updatedEpisodes = [...episodes, newEpisode];
+
+    try {
+      await AsyncStorage.setItem("episodes", JSON.stringify(updatedEpisodes)); // Sla de nieuwe aflevering op in AsyncStorage
+      setEpisodes(updatedEpisodes); // Werk de lijst bij met de nieuwe aflevering
+      clearForm();
+    } catch (error) {
+      console.error("Error saving episode:", error);
+    }
+  };
+
+  // Verwijder een episode uit de lijst en AsyncStorage
+  const removeEpisode = async (index: number) => {
+    const updatedEpisodes = episodes.filter((_, i) => i !== index); // Verwijder het item op basis van de index
+
+    try {
+      await AsyncStorage.setItem("episodes", JSON.stringify(updatedEpisodes)); // Sla de bijgewerkte lijst op in AsyncStorage
+      setEpisodes(updatedEpisodes); // Werk de lijst bij in de staat
+    } catch (error) {
+      console.error("Error removing episode:", error);
+    }
+  };
+
+  // Clear the form inputs after adding a new episode
+  const clearForm = () => {
+    setName("");
+    setAirDate("");
+    setEpisode("");
+    setSeason("");
+  };
+
+  // Loader when data is being fetched
   if (loading) {
     return (
       <View style={styles.loader}>
@@ -31,18 +87,57 @@ const EpisodesScreen = () => {
   }
 
   return (
-    <FlatList
-      data={episodes}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={({ item }) => (
-        <EpisodeItem
-          name={item.name}
-          air_date={item.air_date}
-          episode={item.episode}
-          season={item.season}
-        />
-      )}
-    />
+    <View style={styles.container}>
+      {/* Form to add a new episode */}
+      <TextInput
+        style={styles.input}
+        placeholder="Episode Name"
+        value={name}
+        onChangeText={setName}
+        placeholderTextColor="#888" // Set placeholder color to a greyish tone
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Air Date"
+        value={airDate}
+        onChangeText={setAirDate}
+        placeholderTextColor="#888" // Set placeholder color to a greyish tone
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Episode (e.g., S01E01)"
+        value={episode}
+        onChangeText={setEpisode}
+        placeholderTextColor="#888" // Set placeholder color to a greyish tone
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Season (e.g., 1)"
+        value={season}
+        onChangeText={setSeason}
+        placeholderTextColor="#888" // Set placeholder color to a greyish tone
+      />
+      <Button title="Add Episode" onPress={addEpisode} />
+
+      {/* List of episodes */}
+      <FlatList
+        data={episodes}
+        keyExtractor={(item, index) => index.toString()} // Use index as key
+        renderItem={({ item, index }) => (
+          <View style={styles.episodeItem}>
+            <Text>{item.name}</Text>
+            <Text>{item.air_date}</Text>
+            <Text>Episode: {item.episode}</Text>
+            <Text>Season: {item.season}</Text>
+
+            {/* Remove button */}
+            <TouchableOpacity onPress={() => removeEpisode(index)} style={styles.removeButton}>
+              <Text style={styles.removeButtonText}>Remove</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+    </View>
   );
 };
 
@@ -51,6 +146,38 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  container: {
+    flex: 1,
+    padding: 16,
+    justifyContent: "flex-start", // Ensure everything starts from the top
+  },
+  input: {
+    height: 40,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    marginBottom: 12, // Increased space between inputs
+    paddingHorizontal: 8,
+    borderRadius: 5,
+  },
+  episodeItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    flexDirection: "column", // Stack text and button vertically
+    alignItems: "flex-start", // Align text to the start
+  },
+  removeButton: {
+    backgroundColor: "#ff6347", // Tomato color
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginTop: 10, // Add margin between text and button
+    alignSelf: "center", // Center the button
+  },
+  removeButtonText: {
+    color: "#fff",
+    fontSize: 14,
   },
 });
 
