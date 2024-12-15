@@ -55,7 +55,7 @@ const EpisodesScreen = () => {
 
 
   const removeEpisode = async (index: number) => {
-    // Vraag om bevestiging voordat je verwijdert
+  
     Alert.alert(
       "Weet je het zeker?",
       "Wil je deze aflevering verwijderen?",
@@ -144,7 +144,7 @@ const EpisodesScreen = () => {
 
       <FlatList
         data={episodes}
-        keyExtractor={(item, index) => index.toString()} 
+        keyExtractor={(_item, index) => index.toString()} 
         renderItem={({ item, index }) => (
           <View style={styles.episodeItem}>
             <Text>{item.name}</Text>

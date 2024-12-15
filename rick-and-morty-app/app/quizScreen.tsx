@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react"; 
-import { FlatList, StyleSheet, View, Text, Button, ImageBackground, Alert } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
-import { EpisodeItemProps } from "./types/types"; // Importeer de interface
+import { FlatList, StyleSheet, View, Text, Button, ImageBackground, Alert, TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage"; 
 
 const QuizScreen = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(0); // Variabele voor de topscore
+  const [highScore, setHighScore] = useState(0); 
 
   const questions = [
     {
@@ -167,14 +166,14 @@ const QuizScreen = () => {
     const loadHighScore = async () => {
       const storedHighScore = await AsyncStorage.getItem("highScore");
       if (storedHighScore) {
-        setHighScore(parseInt(storedHighScore)); // Zet de geladen score als de top score
+        setHighScore(parseInt(storedHighScore)); 
       }
     };
 
     loadHighScore();
   }, []);
 
-  // Handle answer selection
+
   const handleAnswer = (answer: string) => {
     if (answer === questions[currentQuestionIndex].answer) {
       setScore(score + 1);
@@ -182,21 +181,28 @@ const QuizScreen = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      // Quiz eindigen
+  
       alert(`Quiz beëindigd! Je score is: ${score}/${questions.length}`);
 
-      // Controleer of de score hoger is dan de topscore
+ 
       if (score > highScore) {
         setHighScore(score);
-        AsyncStorage.setItem("highScore", score.toString()); // Sla de nieuwe topscore op
+        AsyncStorage.setItem("highScore", score.toString()); 
         alert("Gefeliciteerd! Je hebt een nieuwe topscore!");
       }
 
-      // Reset de score en vraagindex voor de volgende quiz
+   
       setScore(0);
       setCurrentQuestionIndex(0);
     }
   };
+
+  const answerColors = [
+    { backgroundColor: "#ffcccb", color: "#000" }, // Lichtrood
+    { backgroundColor: "#d4edda", color: "#000" }, // Lichtgroen
+    { backgroundColor: "#cce5ff", color: "#000" }, // Lichtblauw
+    { backgroundColor: "#fff3cd", color: "#000" }, // Lichtgeel
+  ];
 
   return (
     <ImageBackground
@@ -211,16 +217,31 @@ const QuizScreen = () => {
             {questions[currentQuestionIndex].question}
           </Text>
           {questions[currentQuestionIndex].options.map((option, index) => (
-            <Button
+            <TouchableOpacity
               key={index}
-              title={option}
+              style={[
+                styles.answerButton,
+                {
+                  backgroundColor: answerColors[index % answerColors.length].backgroundColor,
+                },
+              ]}
               onPress={() => handleAnswer(option)}
-            />
+            >
+              <Text
+                style={[
+                  styles.answerText,
+                  {
+                    color: answerColors[index % answerColors.length].color,
+                  },
+                ]}
+              >
+                {option}
+              </Text>
+            </TouchableOpacity>
           ))}
           <Text style={styles.score}>Huidige Score: {score}</Text>
         </View>
 
-        {/* Toon de topscore onderaan */}
         <View style={styles.highScoreBox}>
           <Text style={styles.highScoreText}>Topscore: {highScore}</Text>
         </View>
@@ -250,20 +271,33 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     alignItems: "center",
-    width: "90%", // Responsieve breedte
-    height: 300, // Stel een vaste hoogte in voor stabiliteit
-    justifyContent: "space-evenly", // Verdeel de ruimte gelijkmatig
+    width: "90%", 
+    height: 300, 
+    justifyContent: "space-evenly", 
   },
   question: {
     fontSize: 18,
     color: "black",
-    marginBottom: 20,
-    textAlign: "center",
+    textAlign: "center", // Zorg dat tekst gecentreerd is
+    flexWrap: "wrap", // Tekst wordt naar een nieuwe regel verplaatst indien nodig
+  },
+  answerButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginVertical: 5,
+    width: "100%", // Laat de knoppen de volledige breedte gebruiken
+    alignItems: "center",
+  },
+  answerText: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
   score: {
     fontSize: 16,
     color: "green",
-    marginTop: 20,
+    marginBottom: 10,
+    fontWeight:"bold",
   },
   highScoreBox: {
     marginTop: 20, // Zorg ervoor dat er wat ruimte is tussen de quiz en de topscore
