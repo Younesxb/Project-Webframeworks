@@ -55,7 +55,7 @@ const EpisodesScreen = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlvdW5lcy5iZW56aWFuQHN0dWRlbnQuYXAuYmUiLCJpYXQiOjE3MzQyOTcyMzV9.aHUsIafizhymmhv15Nploe-bAHSESYmBkqznwxxAQBQ`,  // Je token hier invoegen
+          "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlvdW5lcy5iZW56aWFuQHN0dWRlbnQuYXAuYmUiLCJpYXQiOjE3MzQyOTc4NzB9.stLrX68XqTkcFBj-wmEe4jklst3M1T3ELbnHmmVQWao`, 
         },
         body: JSON.stringify(newEpisode),  
       }
