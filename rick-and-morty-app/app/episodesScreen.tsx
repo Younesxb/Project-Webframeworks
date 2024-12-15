@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"; 
-import { FlatList, StyleSheet, View, Text, TextInput, Button, TouchableOpacity } from "react-native";
+import { FlatList, StyleSheet, View, Text, TextInput, Button, TouchableOpacity, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import { EpisodeItemProps } from "./types/types"; // Importeer de interface
 
@@ -52,6 +52,9 @@ const EpisodesScreen = () => {
       await AsyncStorage.setItem("episodes", JSON.stringify(updatedEpisodes)); // Sla de nieuwe aflevering op in AsyncStorage
       setEpisodes(updatedEpisodes); // Werk de lijst bij met de nieuwe aflevering
       clearForm();
+
+      // Alert bij succesvol toevoegen
+      Alert.alert("Succes", "De aflevering is toegevoegd!");
     } catch (error) {
       console.error("Error saving episode:", error);
     }
@@ -59,14 +62,34 @@ const EpisodesScreen = () => {
 
   // Verwijder een episode uit de lijst en AsyncStorage
   const removeEpisode = async (index: number) => {
-    const updatedEpisodes = episodes.filter((_, i) => i !== index); // Verwijder het item op basis van de index
+    // Vraag om bevestiging voordat je verwijdert
+    Alert.alert(
+      "Weet je het zeker?",
+      "Wil je deze aflevering verwijderen?",
+      [
+        {
+          text: "Annuleren",
+          style: "cancel",
+        },
+        {
+          text: "Verwijderen",
+          onPress: async () => {
+            const updatedEpisodes = episodes.filter((_, i) => i !== index); // Verwijder het item op basis van de index
 
-    try {
-      await AsyncStorage.setItem("episodes", JSON.stringify(updatedEpisodes)); // Sla de bijgewerkte lijst op in AsyncStorage
-      setEpisodes(updatedEpisodes); // Werk de lijst bij in de staat
-    } catch (error) {
-      console.error("Error removing episode:", error);
-    }
+            try {
+              await AsyncStorage.setItem("episodes", JSON.stringify(updatedEpisodes)); // Sla de bijgewerkte lijst op in AsyncStorage
+              setEpisodes(updatedEpisodes); // Werk de lijst bij in de staat
+
+              // Alert bij succesvol verwijderen
+              Alert.alert("Succes", "De aflevering is verwijderd!");
+            } catch (error) {
+              console.error("Error removing episode:", error);
+            }
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   // Clear the form inputs after adding a new episode
@@ -91,33 +114,33 @@ const EpisodesScreen = () => {
       {/* Form to add a new episode */}
       <TextInput
         style={styles.input}
-        placeholder="Episode Name"
+        placeholder="Afleveringnaam"
         value={name}
         onChangeText={setName}
         placeholderTextColor="#888" // Set placeholder color to a greyish tone
       />
       <TextInput
         style={styles.input}
-        placeholder="Air Date"
+        placeholder="Uitzenddatum"
         value={airDate}
         onChangeText={setAirDate}
         placeholderTextColor="#888" // Set placeholder color to a greyish tone
       />
       <TextInput
         style={styles.input}
-        placeholder="Episode (e.g., S01E01)"
+        placeholder="Afleveringnummer"
         value={episode}
         onChangeText={setEpisode}
         placeholderTextColor="#888" // Set placeholder color to a greyish tone
       />
       <TextInput
         style={styles.input}
-        placeholder="Season (e.g., 1)"
+        placeholder="Seizoennummer"
         value={season}
         onChangeText={setSeason}
         placeholderTextColor="#888" // Set placeholder color to a greyish tone
       />
-      <Button title="Add Episode" onPress={addEpisode} />
+      <Button title="Voeg aflevering toe" onPress={addEpisode} />
 
       {/* List of episodes */}
       <FlatList
@@ -127,8 +150,8 @@ const EpisodesScreen = () => {
           <View style={styles.episodeItem}>
             <Text>{item.name}</Text>
             <Text>{item.air_date}</Text>
-            <Text>Episode: {item.episode}</Text>
-            <Text>Season: {item.season}</Text>
+            <Text>Aflevering: {item.episode}</Text>
+            <Text>Seizoen: {item.season}</Text>
 
             {/* Remove button */}
             <TouchableOpacity onPress={() => removeEpisode(index)} style={styles.removeButton}>
@@ -164,7 +187,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
-    flexDirection: "column", // Stack text and button vertically
+    flexDirection: "column", // Change direction to column for better stacking
     alignItems: "flex-start", // Align text to the start
   },
   removeButton: {
@@ -172,7 +195,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
-    marginTop: 10, // Add margin between text and button
+    marginTop: 10, // Add some margin to separate the button from text
     alignSelf: "center", // Center the button
   },
   removeButtonText: {
