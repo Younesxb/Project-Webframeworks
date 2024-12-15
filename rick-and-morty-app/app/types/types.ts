@@ -9,7 +9,6 @@ export interface EpisodeItemProps {
 export interface Character {
   id: number;
   name: string;
-  description: string;
   image: string;
 }
 
@@ -41,5 +40,6 @@ export type RootStackParamList = {
   episodes: undefined;
   EpisodeDetails: { episode: EpisodeItemProps };
   quiz: undefined;
+  addCharacter: undefined;
 
 };

@@ -3,9 +3,10 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { ImageBackground, StyleSheet } from "react-native";
 import HomeScreen from "./homeScreen";
 import DetailsScreen from "./details";
-import EpisodesStack from "./components/episodesStack";
 import Quiz from "./quizScreen";
 import { RootStackParamList } from "./types/types";
+import EpisodesScreen from "./episodesScreen";
+
 
 
 const Drawer = createDrawerNavigator<RootStackParamList>();
@@ -45,7 +46,7 @@ const RootLayout = () => {
         />
         <Drawer.Screen
           name="episodes"
-          component={EpisodesStack}
+          component={EpisodesScreen}
           options={{ title: "Episodes" }}
         />
         <Drawer.Screen
@@ -53,6 +54,7 @@ const RootLayout = () => {
           component={Quiz}
           options={{ title: "Rick and Morty Quiz" }}
         />
+
 
       </Drawer.Navigator>
     </ImageBackground>

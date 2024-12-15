@@ -1,32 +1,24 @@
-import React from "react";
-import {
-  FlatList,
-  TouchableOpacity,
-  StyleSheet,
-  View,
-  Text,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "./types/types";
-import EpisodeItem from "./components/episodeItem";
-
-type NavigationProp = StackNavigationProp<RootStackParamList, "episodes">;
+import React, { useState, useEffect } from "react";
+import { FlatList, StyleSheet, View, Text } from "react-native";
+import EpisodeItem from "./components/episodeItem"; 
 
 const EpisodesScreen = () => {
-  const navigation = useNavigation<NavigationProp>();
-  const [episodes, setEpisodes] = React.useState<any[]>([]);
-  const [loading, setLoading] = React.useState(true);
+  const [episodes, setEpisodes] = useState<any[]>([]); 
+  const [loading, setLoading] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchEpisodes = async () => {
-      const response = await fetch(
-        "https://sampleapis.assimilate.be/rickandmorty/episodes"
-      );
-      const data = await response.json();
-      setEpisodes(data);
-      setLoading(false);
+      try {
+        const response = await fetch("https://sampleapis.assimilate.be/rickandmorty/episodes");
+        const data = await response.json();
+        setEpisodes(data);
+      } catch (error) {
+        console.error("Error fetching episodes:", error);
+      } finally {
+        setLoading(false);
+      }
     };
+
     fetchEpisodes();
   }, []);
 
@@ -43,18 +35,12 @@ const EpisodesScreen = () => {
       data={episodes}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("EpisodeDetails", { episode: item })
-          }
-        >
-          <EpisodeItem
-            name={item.name}
-            air_date={item.air_date}
-            episode={item.episode}
-            season={item.season}
-          />
-        </TouchableOpacity>
+        <EpisodeItem
+          name={item.name}
+          air_date={item.air_date}
+          episode={item.episode}
+          season={item.season}
+        />
       )}
     />
   );

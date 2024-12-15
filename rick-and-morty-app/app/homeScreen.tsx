@@ -1,35 +1,58 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  ImageBackground,
-  TextInput,
-  Button,
-} from "react-native";
+import { View, StyleSheet, ImageBackground, TextInput, Button } from "react-native";
+import * as Notifications from "expo-notifications"; 
+import AsyncStorage from "@react-native-async-storage/async-storage"; 
 import CharacterList from "./components/characterList";
-import { HomeScreenProps } from "./types/types";
+import { HomeScreenProps, Character } from "./types/types";
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
-  const [characters, setCharacters] = useState([]);
-  const [filteredCharacters, setFilteredCharacters] = useState([]);
-  const [favorites, setFavorites] = useState<number[]>([]);
+  const [characters, setCharacters] = useState<Character[]>([]);
+  const [filteredCharacters, setFilteredCharacters] = useState<Character[]>([]);
+  const [favorites, setFavorites] = useState<number[]>([]); 
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [showFavorites, setShowFavorites] = useState(false);
 
+
   useEffect(() => {
     const fetchCharacters = async () => {
-      const response = await fetch(
-        "https://sampleapis.assimilate.be/rickandmorty/characters"
-      );
+      const response = await fetch("https://sampleapis.assimilate.be/rickandmorty/characters");
       const data = await response.json();
       setCharacters(data);
       setFilteredCharacters(data);
       setLoading(false);
     };
 
+    const loadFavorites = async () => {
+      const storedFavorites = await AsyncStorage.getItem("favorites");
+      if (storedFavorites) {
+        setFavorites(JSON.parse(storedFavorites));
+      }
+    };
+
     fetchCharacters();
+    loadFavorites();
   }, []);
+
+
+  const showNotification = async (characterName: string) => {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Favoriet toegevoegd!",
+        body: `${characterName} is toegevoegd aan je favorieten.`,
+      },
+      trigger: null, 
+    });
+  };
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
+
 
   const handleSearch = (text: string) => {
     setSearch(text);
@@ -46,13 +69,11 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     let filtered = characters;
 
     if (showOnlyFavorites) {
-      filtered = filtered.filter((character: any) =>
-        favorites.includes(character.id)
-      );
+      filtered = filtered.filter((character) => favorites.includes(character.id));
     }
 
     if (searchText) {
-      filtered = filtered.filter((character: any) =>
+      filtered = filtered.filter((character) =>
         character.name.toLowerCase().includes(searchText.toLowerCase())
       );
     }
@@ -60,10 +81,24 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     setFilteredCharacters(filtered);
   };
 
-  const toggleFavorite = (id: number) => {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id]
-    );
+  const toggleFavorite = async (id: number) => {
+    const character = characters.find((char) => char.id === id);
+    if (!character) return;
+
+    //hier word dit geupdated en doorgegeven naar asyncstorage
+    const updatedFavorites = favorites.includes(id)
+      ? favorites.filter((favId) => favId !== id)
+      : [...favorites, id];
+
+    setFavorites(updatedFavorites);
+
+ 
+    await AsyncStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+
+
+    if (!favorites.includes(id)) {
+      showNotification(character.name);
+    }
   };
 
   const handleCharacterPress = (id: number) => {
