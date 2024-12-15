@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react"; 
 import { FlatList, StyleSheet, View, Text, TextInput, Button, TouchableOpacity, Alert } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
-import { EpisodeItemProps } from "./types/types"; // Importeer de interface
+import AsyncStorage from "@react-native-async-storage/async-storage"; 
+import { EpisodeItemProps } from "./types/types"; 
 
 const EpisodesScreen = () => {
-  const [episodes, setEpisodes] = useState<EpisodeItemProps[]>([]); // Gebruik de EpisodeItemProps interface
+  const [episodes, setEpisodes] = useState<EpisodeItemProps[]>([]); 
   const [loading, setLoading] = useState(true);
 
   // States voor formulierinput
@@ -13,25 +13,22 @@ const EpisodesScreen = () => {
   const [episode, setEpisode] = useState<string>("");
   const [season, setSeason] = useState<string>("");
 
-  // Laad de afleveringen uit AsyncStorage en de API
+  // State voor formulier zichtbaar/verborgen
+  const [isFormVisible, setFormVisible] = useState<boolean>(false);
+
   useEffect(() => {
     const loadEpisodes = async () => {
-      try {
-        // Haal de originele afleveringen van de API op
-        const response = await fetch("https://sampleapis.assimilate.be/rickandmorty/episodes");
-        const data = await response.json();
+      // Haal de originele afleveringen van de API op
+      const response = await fetch("https://sampleapis.assimilate.be/rickandmorty/episodes");
+      const data = await response.json();
 
-        // Laad de opgeslagen afleveringen uit AsyncStorage
-        const storedEpisodes = await AsyncStorage.getItem("episodes");
-        const storedData = storedEpisodes ? JSON.parse(storedEpisodes) : [];
+      // Laad de opgeslagen afleveringen uit AsyncStorage
+      const storedEpisodes = await AsyncStorage.getItem("episodes");
+      const storedData = storedEpisodes ? JSON.parse(storedEpisodes) : [];
 
-        // Combineer de originele afleveringen en de opgeslagen afleveringen
-        setEpisodes([...data, ...storedData]); // Voeg de originele en opgeslagen afleveringen samen
-      } catch (error) {
-        console.error("Error loading episodes:", error);
-      } finally {
-        setLoading(false);
-      }
+      // Combineer de originele afleveringen en de opgeslagen afleveringen
+      setEpisodes([...data, ...storedData]); // Voeg de originele en opgeslagen afleveringen samen
+      setLoading(false);
     };
 
     loadEpisodes();
@@ -48,16 +45,12 @@ const EpisodesScreen = () => {
 
     const updatedEpisodes = [...episodes, newEpisode];
 
-    try {
-      await AsyncStorage.setItem("episodes", JSON.stringify(updatedEpisodes)); // Sla de nieuwe aflevering op in AsyncStorage
-      setEpisodes(updatedEpisodes); // Werk de lijst bij met de nieuwe aflevering
-      clearForm();
+    await AsyncStorage.setItem("episodes", JSON.stringify(updatedEpisodes)); // Sla de nieuwe aflevering op in AsyncStorage
+    setEpisodes(updatedEpisodes); // Werk de lijst bij met de nieuwe aflevering
+    clearForm();
 
-      // Alert bij succesvol toevoegen
-      Alert.alert("Succes", "De aflevering is toegevoegd!");
-    } catch (error) {
-      console.error("Error saving episode:", error);
-    }
+    // Alert bij succesvol toevoegen
+    Alert.alert("Succes", "De aflevering is toegevoegd!");
   };
 
   // Verwijder een episode uit de lijst en AsyncStorage
@@ -76,15 +69,11 @@ const EpisodesScreen = () => {
           onPress: async () => {
             const updatedEpisodes = episodes.filter((_, i) => i !== index); // Verwijder het item op basis van de index
 
-            try {
-              await AsyncStorage.setItem("episodes", JSON.stringify(updatedEpisodes)); // Sla de bijgewerkte lijst op in AsyncStorage
-              setEpisodes(updatedEpisodes); // Werk de lijst bij in de staat
+            await AsyncStorage.setItem("episodes", JSON.stringify(updatedEpisodes)); // Sla de bijgewerkte lijst op in AsyncStorage
+            setEpisodes(updatedEpisodes); // Werk de lijst bij in de staat
 
-              // Alert bij succesvol verwijderen
-              Alert.alert("Succes", "De aflevering is verwijderd!");
-            } catch (error) {
-              console.error("Error removing episode:", error);
-            }
+            // Alert bij succesvol verwijderen
+            Alert.alert("Succes", "De aflevering is verwijderd!");
           },
         },
       ],
@@ -111,36 +100,46 @@ const EpisodesScreen = () => {
 
   return (
     <View style={styles.container}>
+      {/* Toggle the form visibility */}
+      <Button 
+        title={isFormVisible ? "Sluit formulier" : "Voeg aflevering toe"} 
+        onPress={() => setFormVisible(prevState => !prevState)} 
+      />
+
       {/* Form to add a new episode */}
-      <TextInput
-        style={styles.input}
-        placeholder="Afleveringnaam"
-        value={name}
-        onChangeText={setName}
-        placeholderTextColor="#888" // Set placeholder color to a greyish tone
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Uitzenddatum"
-        value={airDate}
-        onChangeText={setAirDate}
-        placeholderTextColor="#888" // Set placeholder color to a greyish tone
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Afleveringnummer"
-        value={episode}
-        onChangeText={setEpisode}
-        placeholderTextColor="#888" // Set placeholder color to a greyish tone
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Seizoennummer"
-        value={season}
-        onChangeText={setSeason}
-        placeholderTextColor="#888" // Set placeholder color to a greyish tone
-      />
-      <Button title="Voeg aflevering toe" onPress={addEpisode} />
+      {isFormVisible && (
+        <View>
+          <TextInput
+            style={styles.input}
+            placeholder="Afleveringnaam"
+            value={name}
+            onChangeText={setName}
+            placeholderTextColor="#888" // Set placeholder color to a greyish tone
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Uitzenddatum"
+            value={airDate}
+            onChangeText={setAirDate}
+            placeholderTextColor="#888" // Set placeholder color to a greyish tone
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Afleveringnummer"
+            value={episode}
+            onChangeText={setEpisode}
+            placeholderTextColor="#888" // Set placeholder color to a greyish tone
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Seizoennummer"
+            value={season}
+            onChangeText={setSeason}
+            placeholderTextColor="#888" // Set placeholder color to a greyish tone
+          />
+          <Button title="Voeg aflevering toe" onPress={addEpisode} />
+        </View>
+      )}
 
       {/* List of episodes */}
       <FlatList
