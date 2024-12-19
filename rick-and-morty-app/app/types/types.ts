@@ -35,6 +35,7 @@ export interface HomeScreenProps {
 }
 
 export type RootStackParamList = {
+  welcome: undefined;
   home: undefined;
   details: { id: string };
   episodes: undefined;

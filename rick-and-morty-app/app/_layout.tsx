@@ -4,10 +4,9 @@ import { ImageBackground, StyleSheet } from "react-native";
 import HomeScreen from "./homeScreen";
 import DetailsScreen from "./details";
 import Quiz from "./quizScreen";
-import { RootStackParamList } from "./types/types";
 import EpisodesScreen from "./episodesScreen";
-
-
+import WelcomeScreen from "./welcomeScreen"; // Correct importeren
+import { RootStackParamList } from "./types/types";
 
 const Drawer = createDrawerNavigator<RootStackParamList>();
 
@@ -19,7 +18,7 @@ const RootLayout = () => {
       resizeMode="cover"
     >
       <Drawer.Navigator
-        initialRouteName="home"
+        initialRouteName="welcome" 
         screenOptions={{
           headerStyle: {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -34,6 +33,11 @@ const RootLayout = () => {
           drawerInactiveTintColor: "white",
         }}
       >
+        <Drawer.Screen
+          name="welcome"
+          component={WelcomeScreen}
+          options={{ title: "Welkom" }}
+        />
         <Drawer.Screen
           name="home"
           component={HomeScreen}
@@ -54,8 +58,6 @@ const RootLayout = () => {
           component={Quiz}
           options={{ title: "Rick and Morty Quiz" }}
         />
-
-
       </Drawer.Navigator>
     </ImageBackground>
   );
