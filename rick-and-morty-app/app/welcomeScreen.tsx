@@ -5,7 +5,7 @@ import { HomeScreenProps } from "./types/types";
 const WelcomeScreen = ({ navigation }:HomeScreenProps) => {
   return (
     <ImageBackground
-      source={require("./assets/images/rickandmortylaadexpo.jpg")} // Zorg ervoor dat het pad correct is
+      source={require("./assets/images/rickandmortylaadexpo.jpg")} 
       style={styles.background}
       resizeMode="cover"
     >
