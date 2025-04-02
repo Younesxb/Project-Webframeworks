@@ -38,32 +38,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   textContainer: {
-    backgroundColor: "white", // Witte achtergrond voor de tekst
-    borderRadius: 8, // Afronde hoeken
+    backgroundColor: "white", 
+    borderRadius: 8, 
     paddingVertical: 10,
     paddingHorizontal: 20,
-    marginBottom: 20, // Ruimte tussen tekst en knop
-    elevation: 5, // Schaduw op Android
-    shadowColor: "#000", // Schaduwkleur voor iOS
-    shadowOffset: { width: 0, height: 2 }, // Schaduwpositie voor iOS
-    shadowOpacity: 0.25, // Schaduwdichtheid voor iOS
-    shadowRadius: 4, // Schaduwuitstraling voor iOS
+    marginBottom: 20, 
+    elevation: 5, 
+    shadowColor: "#000", 
+    shadowOffset: { width: 0, height: 2 }, 
+    shadowOpacity: 0.25, 
+    shadowRadius: 4, 
   },
   title: {
     fontSize: 24,
-    color: "#000", // Zwarte tekstkleur
+    color: "#000",
     textAlign: "center",
   },
   buttonContainer: {
-    backgroundColor: "white", // Witte achtergrond voor de knop
-    borderRadius: 8, // Afronde hoeken
+    backgroundColor: "white", 
+    borderRadius: 8, 
     paddingVertical: 10,
     paddingHorizontal: 20,
-    elevation: 5, // Schaduw op Android
-    shadowColor: "#000", // Schaduwkleur voor iOS
-    shadowOffset: { width: 0, height: 2 }, // Schaduwpositie voor iOS
-    shadowOpacity: 0.25, // Schaduwdichtheid voor iOS
-    shadowRadius: 4, // Schaduwuitstraling voor iOS
+    elevation: 5, 
+    shadowColor: "#000", 
+    shadowOffset: { width: 0, height: 2 }, 
+    shadowOpacity: 0.25, /
+    shadowRadius: 4, 
   },
 });
 
